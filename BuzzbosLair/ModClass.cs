@@ -36,9 +36,10 @@ namespace BuzzbosLair
             // Hive -> HIVE?
             // HIVE Research Center:
             //   * HIVE Institution Vitality Enhancements Research Center
-            //   * HoneyIchor Vatality Enhancements Research Center
-            //
+            //   * HoneyIchor Vitality Enhancements Research Center
+            // alt. simply HIVE, HIVE Institution for Vitality Enhancements
             // - Decide later if we want the recursive acronym or not
+            //   (We do)
             //
 
             Instance = this;
@@ -54,6 +55,7 @@ namespace BuzzbosLair
             }
 
             ModHooks.OnEnableEnemyHook += EnemyEnabled;
+            ModHooks.LanguageGetHook += LanguageHandler.LanguageGet;
 
             Log("Initialized");
         }

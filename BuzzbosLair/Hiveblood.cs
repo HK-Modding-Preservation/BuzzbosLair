@@ -67,7 +67,6 @@ namespace BuzzbosLair
             }
         }
 
-
         IEnumerator Regeneration ()
         {
             while(true)
