@@ -88,5 +88,10 @@ namespace BuzzbosLair
             regenPausers -= 1;
         }
 
+        public void OnDestroy()
+        {
+            On.HealthManager.TakeDamage -= TookDamage;
+        }
+
     }
 }
