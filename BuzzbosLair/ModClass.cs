@@ -63,13 +63,13 @@ namespace BuzzbosLair
         private bool EnemyEnabled(GameObject enemy, bool isAlreadyDead)
         {
 
-            if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Bee Stinger") || enemy.name.Contains("Big Bee") || enemy.name.Contains("Hiveling Spawner"))
+            /*if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Bee Stinger") || enemy.name.Contains("Big Bee") || enemy.name.Contains("Hiveling Spawner"))
             {
                 //enemy.AddComponent<Hiveblood>();
                 //enemy.GetComponent<Recoil>().enabled = false;
                 //enemy.AddComponent<Bloodchanger>();
                 //enemy.GetComponent<Bloodchanger>().SetBloodColor(Bloodchanger.color_hiveblood);
-            }
+            }*/
 
             if (enemy.name.Contains("Big Bee"))
             {

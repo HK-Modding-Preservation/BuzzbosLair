@@ -1,4 +1,5 @@
-﻿using HutongGames.PlayMaker.Actions;
+﻿using FriendCore;
+using HutongGames.PlayMaker.Actions;
 using Modding;
 using SFCore.Utils;
 using System;
@@ -16,13 +17,21 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
 
+        private AlterHealthManager alter_hm;
+
         public void Awake()
         {
             _control = gameObject.LocateMyFSM("Bee Stinger");
+
+            alter_hm = gameObject.AddComponent<AlterHealthManager>();
+
         }
 
         public void Start()
         {
+
+            alter_hm.SetRegen(0.5f, 0.25f, 1);
+
             _control.AddFsmState("Firing");
             _control.AddFsmTransition("Firing", "FINISHED", "Hit");
             _control.ChangeFsmTransition("Rear Back", "FINISHED", "Firing");

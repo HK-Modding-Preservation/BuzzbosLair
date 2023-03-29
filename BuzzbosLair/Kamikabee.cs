@@ -1,4 +1,5 @@
-﻿using HutongGames.PlayMaker.Actions;
+﻿using FriendCore;
+using HutongGames.PlayMaker.Actions;
 using SFCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,20 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
 
+        private AlterHealthManager alter_hm;
+
         public void Awake()
         {
             _control = gameObject.LocateMyFSM("Big Bee");
+
+            alter_hm = gameObject.AddComponent<AlterHealthManager>();
         }
 
         public void Start()
         {
-            _control.GetAction<SetIntValue>("Charge Antic", 0).intValue = 10;
+            _control.GetAction<SetIntValue>("Charge Antic", 0).intValue = 100;
+
+            alter_hm.SetRegen(1f, 1f, 5);
         }
 
     }
