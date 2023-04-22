@@ -20,9 +20,10 @@ namespace BuzzbosLair
             ["Mantis Lord"] = ("Fungus2_15_boss", "Mantis Battle/Battle Main/Mantis Lord"),
             ["Gruz Mother"] = ("GG_Gruz_Mother", "_Enemies/Giant Fly"),*/
             ["Honey Spike"] = ("Hive_05", "Battle Scene/Globs/Hive Knight Glob/Stingers/Stinger"),
+            ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
         };
 
-        public override string GetVersion() => "...";
+        public override string GetVersion() => "0.0.0.5";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
