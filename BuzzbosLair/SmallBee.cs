@@ -1,4 +1,5 @@
 ﻿using FriendCore;
+using HutongGames.PlayMaker.Actions;
 using SFCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace BuzzbosLair
 
         private AlterHealthManager alter_hm;
 
+        private PlayMakerFSM _fsm;
+
         public void Awake()
         {
             gameObject.GetComponent<Recoil>().enabled = false;
@@ -28,6 +31,17 @@ namespace BuzzbosLair
 
             alter_hm.SetRegen(0.25f, 0.1f, 1);
             alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
+
+            if(gameObject.name.Contains("Bee Hatchling Ambient"))
+            {
+                _fsm = gameObject.LocateMyFSM("Bee");
+                _fsm.RemoveTransition("Chase", "OUT OF RANGE");
+                _fsm.GetAction<ChaseObject>("Chase", 1).speedMax = 15f;
+            } else if (gameObject.name.Contains("Hiveling Spawner"))
+            {
+                _fsm = gameObject.LocateMyFSM("Control");
+                _fsm.GetAction<ChaseObjectV2>("Chase", 2).speedMax = 15f;
+            }
 
         }
 
