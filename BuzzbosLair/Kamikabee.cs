@@ -37,8 +37,37 @@ namespace BuzzbosLair
 
             //_control.RemoveAction("Hit Vertical", 1);
             //_control.RemoveAction("Hit Horizontal", 1);
-            //_control.RemoveTransition("Hit Vertical", "END");
-            //_control.RemoveTransition("Hit Horizontal", "END");
+            _control.RemoveTransition("Hit Vertical", "END");
+            _control.RemoveTransition("Hit Horizontal", "END");
+
+            _control.AddState("Random Dir");
+            _control.AddTransition("Random Dir", "UP", "Hit Up");
+            _control.AddTransition("Random Dir", "DOWN", "Hit Down");
+            _control.AddTransition("Random Dir", "RIGHT", "Hit Right");
+            _control.AddTransition("Random Dir", "LEFT", "Hit Left");
+            _control.AddMethod("Random Dir", () => {
+                int dirNum = UnityEngine.Random.Range(0, 4);
+                switch (dirNum) {
+                    case 0:
+                        _control.SendEvent("UP");
+                        break;
+                    case 1:
+                        _control.SendEvent("DOWN");
+                        break;
+                    case 2:
+                        _control.SendEvent("RIGHT");
+                        break;
+                    case 3:
+                        _control.SendEvent("LEFT");
+                        break;
+                }
+            });
+
+            _control.ChangeTransition("Check Dir", "FINISHED", "Random Dir");
+            /*_control.GetAction<FloatCompare>("Check Dir", 4).tolerance = 0.5f;
+            _control.GetAction<FloatCompare>("Check Dir", 5).tolerance = 0.5f;
+            _control.GetAction<FloatCompare>("Check Dir", 6).tolerance = 0.5f;
+            _control.GetAction<FloatCompare>("Check Dir", 7).tolerance = 0.5f;*/
 
             alter_hm.SetRegen(1f, 1f, 5);
         }

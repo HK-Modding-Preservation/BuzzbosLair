@@ -23,7 +23,7 @@ namespace BuzzbosLair
             ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
         };
 
-        public override string GetVersion() => "0.0.0.9";
+        public override string GetVersion() => "0.0.1.1";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -82,7 +82,7 @@ namespace BuzzbosLair
                 enemy.AddComponent<Railgun>();
             }
 
-            if (enemy.name.Contains("Bee Hatchling Ambient"))
+            if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Hiveling Spawner"))
             {
                 enemy.AddComponent<SmallBee>();
             }

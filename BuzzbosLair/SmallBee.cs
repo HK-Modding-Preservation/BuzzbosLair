@@ -16,6 +16,8 @@ namespace BuzzbosLair
 
         public void Awake()
         {
+            gameObject.GetComponent<Recoil>().enabled = false;
+
             alter_hm = gameObject.AddComponent<AlterHealthManager>();
         }
 
@@ -26,6 +28,7 @@ namespace BuzzbosLair
 
             alter_hm.SetRegen(0.25f, 0.1f, 1);
             alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
+
         }
 
     }
