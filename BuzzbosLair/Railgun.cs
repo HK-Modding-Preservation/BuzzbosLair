@@ -18,6 +18,7 @@ namespace BuzzbosLair
         private PlayMakerFSM _control;
 
         private AlterHealthManager alter_hm;
+        private AlterInfectedEnemyEffects alter_blood;
 
         private GameObject _firing_mouth;
 
@@ -26,6 +27,7 @@ namespace BuzzbosLair
             _control = gameObject.LocateMyFSM("Bee Stinger");
 
             alter_hm = gameObject.AddComponent<AlterHealthManager>();
+            alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
 
             _firing_mouth = new GameObject();
             _firing_mouth.transform.SetParent(gameObject.transform);
@@ -37,6 +39,7 @@ namespace BuzzbosLair
         {
 
             alter_hm.SetRegen(0.5f, 0.25f, 1);
+            alter_blood.SetColor(new Color(0.957f, 0.608f, 0.212f));
 
             _control.GetAction<SetVelocityAsAngle>("Zing", 3).speed = 30f;
             _control.GetAction<ChaseObjectV2>("Zing", 5).accelerationForce = 100f;

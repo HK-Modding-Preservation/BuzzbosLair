@@ -14,6 +14,7 @@ namespace BuzzbosLair
     {
 
         private AlterHealthManager alter_hm;
+        private AlterInfectedEnemyEffects alter_blood;
 
         private PlayMakerFSM _fsm;
 
@@ -22,6 +23,7 @@ namespace BuzzbosLair
             gameObject.GetComponent<Recoil>().enabled = false;
 
             alter_hm = gameObject.AddComponent<AlterHealthManager>();
+            alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
         }
 
         public void Start()
@@ -31,8 +33,9 @@ namespace BuzzbosLair
 
             alter_hm.SetRegen(0.25f, 0.1f, 1);
             alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
+            alter_blood.SetColor(new Color(0.957f, 0.608f, 0.212f));
 
-            if(gameObject.name.Contains("Bee Hatchling Ambient"))
+            if (gameObject.name.Contains("Bee Hatchling Ambient"))
             {
                 _fsm = gameObject.LocateMyFSM("Bee");
                 _fsm.RemoveTransition("Chase", "OUT OF RANGE");
