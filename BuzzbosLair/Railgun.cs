@@ -39,7 +39,7 @@ namespace BuzzbosLair
         {
 
             alter_hm.SetRegen(0.5f, 0.25f, 1);
-            alter_blood.SetColor(new Color(0.957f, 0.608f, 0.212f));
+            alter_blood.SetColor(Presets.Colors.hiveblood);
 
             _control.GetAction<SetVelocityAsAngle>("Zing", 3).speed = 30f;
             _control.GetAction<ChaseObjectV2>("Zing", 5).accelerationForce = 100f;

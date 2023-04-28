@@ -72,7 +72,7 @@ namespace BuzzbosLair
             _control.GetAction<FloatCompare>("Check Dir", 7).tolerance = 0.5f;*/
 
             alter_hm.SetRegen(1f, 1f, 5);
-            alter_blood.SetColor(new Color(0.957f, 0.608f, 0.212f));
+            alter_blood.SetColor(Presets.Colors.hiveblood);
         }
 
     }

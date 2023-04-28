@@ -33,7 +33,7 @@ namespace BuzzbosLair
 
             alter_hm.SetRegen(0.25f, 0.1f, 1);
             alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
-            alter_blood.SetColor(new Color(0.957f, 0.608f, 0.212f));
+            alter_blood.SetColor(Presets.Colors.hiveblood);
 
             if (gameObject.name.Contains("Bee Hatchling Ambient"))
             {
