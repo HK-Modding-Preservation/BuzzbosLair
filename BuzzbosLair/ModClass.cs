@@ -23,7 +23,7 @@ namespace BuzzbosLair
             ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
         };
 
-        public override string GetVersion() => "0.2.0.0";
+        public override string GetVersion() => "0.2.0.1";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -55,40 +55,10 @@ namespace BuzzbosLair
                 _gameObjects[name] = preloadedObjects[scene][path];
             }
 
-            ModHooks.OnEnableEnemyHook += EnemyEnabled;
+            ModHooks.OnEnableEnemyHook += EnemyHandler.EnemyEnabled;
             ModHooks.LanguageGetHook += LanguageHandler.LanguageGet;
 
             Log("Initialized");
-        }
-
-        private bool EnemyEnabled(GameObject enemy, bool isAlreadyDead)
-        {
-
-            /*if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Bee Stinger") || enemy.name.Contains("Big Bee") || enemy.name.Contains("Hiveling Spawner"))
-            {
-                //enemy.AddComponent<Hiveblood>();
-                //enemy.GetComponent<Recoil>().enabled = false;
-                //enemy.AddComponent<Bloodchanger>();
-                //enemy.GetComponent<Bloodchanger>().SetBloodColor(Bloodchanger.color_hiveblood);
-            }*/
-
-            if (enemy.name.Contains("Big Bee"))
-            {
-                enemy.AddComponent<Kamikabee>();
-            }
-
-            if (enemy.name.Contains("Bee Stinger"))
-            {
-                enemy.AddComponent<Railgun>();
-            }
-
-            if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Hiveling Spawner"))
-            {
-                enemy.AddComponent<SmallBee>();
-            }
-            
-
-            return isAlreadyDead;
         }
 
         internal static GameObject SpawnHoneySpike(Vector3 pos, float rot)
