@@ -28,6 +28,11 @@ namespace BuzzbosLair
                 enemy.AddComponent<SmallBee>();
             }
 
+            if (enemy.name == "Hive Knight")
+            {
+                enemy.AddComponent<Buzzbo>();
+            }
+
             return isAlreadyDead;
         }
 

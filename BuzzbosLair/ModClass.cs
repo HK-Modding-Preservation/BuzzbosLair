@@ -23,7 +23,7 @@ namespace BuzzbosLair
             ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
         };
 
-        public override string GetVersion() => "0.2.0.1";
+        public override string GetVersion() => "0.2.1.0";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
