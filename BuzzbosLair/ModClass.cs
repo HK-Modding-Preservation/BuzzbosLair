@@ -23,6 +23,10 @@ namespace BuzzbosLair
             ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
         };
 
+        public TextureStrings SpriteDict { get; private set; }
+
+        public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
+
         public override string GetVersion() => "0.2.1.0";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
@@ -44,6 +48,8 @@ namespace BuzzbosLair
             //
 
             Instance = this;
+
+            SpriteDict = new TextureStrings();
         }
 
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
