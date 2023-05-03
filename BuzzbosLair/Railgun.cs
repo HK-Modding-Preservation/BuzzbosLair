@@ -1,13 +1,7 @@
 ﻿using FriendCore;
 using HutongGames.PlayMaker.Actions;
-using Modding;
 using SFCore.Utils;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BuzzbosLair
@@ -22,7 +16,7 @@ namespace BuzzbosLair
 
         private GameObject _firing_mouth;
 
-        public void Awake()
+        void Awake()
         {
             _control = gameObject.LocateMyFSM("Bee Stinger");
 
@@ -35,7 +29,7 @@ namespace BuzzbosLair
 
         }
 
-        public void Start()
+        void Start()
         {
 
             alter_hm.SetRegen(0.5f, 0.25f, 1);

@@ -27,7 +27,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.2.1.3 : Fixed texture resource type";
+        public override string GetVersion() => "0.2.1.4 : ";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {

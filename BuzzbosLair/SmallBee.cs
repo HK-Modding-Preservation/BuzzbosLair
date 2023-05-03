@@ -1,11 +1,6 @@
 ﻿using FriendCore;
 using HutongGames.PlayMaker.Actions;
 using SFCore.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BuzzbosLair
@@ -18,7 +13,7 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _fsm;
 
-        public void Awake()
+        void Awake()
         {
             gameObject.GetComponent<Recoil>().enabled = false;
 
@@ -26,7 +21,7 @@ namespace BuzzbosLair
             alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
         }
 
-        public void Start()
+        void Start()
         {
             //GameObject _corpse = gameObject.Find("Corpse Minimal(Clone)");
             //Destroy(_corpse.Find("Pt Death"));

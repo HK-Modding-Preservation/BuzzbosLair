@@ -1,11 +1,5 @@
 ﻿using FriendCore;
-using HutongGames.PlayMaker.Actions;
 using SFCore.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BuzzbosLair
@@ -18,7 +12,7 @@ namespace BuzzbosLair
         private AlterHealthManager alter_hm;
         private AlterInfectedEnemyEffects alter_blood;
 
-        public void Awake()
+        void Awake()
         {
             _control = gameObject.LocateMyFSM("Big Bee");
 
@@ -26,7 +20,7 @@ namespace BuzzbosLair
             alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
         }
 
-        public void Start()
+        void Start()
         {
             //_control.GetAction<SetIntValue>("Charge Antic", 0).intValue = 100;
 
