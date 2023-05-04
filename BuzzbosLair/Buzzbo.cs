@@ -18,6 +18,8 @@ namespace BuzzbosLair
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
 
+        private Recoil _recoil;
+
         private PlayMakerFSM _control;
         private PlayMakerFSM _stun_control;
 
@@ -25,6 +27,11 @@ namespace BuzzbosLair
         {
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
+
+            _recoil = gameObject.GetComponent<Recoil>();
+
+            _control = gameObject.LocateMyFSM("Control");
+            _stun_control = gameObject.LocateMyFSM("Stun Control");
 
         }
 
@@ -36,6 +43,14 @@ namespace BuzzbosLair
 
             //_hm.hp 
             _alter_hm.SetRegen(0.5f, 0.1f, 1);
+
+            _recoil.enabled = false;
+
+        }
+
+        private void InitFSM() {
+            
+
 
         }
 
@@ -67,5 +82,25 @@ namespace BuzzbosLair
                 SetAwakened(!awakened);
             }
         }
+
+        internal static GameObject SpawnHoneySpike(Vector3 pos, float rot)
+        {
+            GameObject spike = GameObject.Instantiate(BuzzbosLair._gameObjects["Honey Spike"]);
+            spike.SetActive(true);
+            spike.transform.localPosition = pos;
+            spike.transform.localRotation = Quaternion.Euler(0, 0, rot);
+            spike.GetComponent<HiveKnightStinger>().direction = rot;
+
+            return spike;
+        }
+
+        internal static GameObject SpawnTargetedHoneySpike(Vector3 pos, Vector3 target)
+        {
+            float rot = Mathf.Atan2(target.y - pos.y, target.x - pos.x) * (180 / Mathf.PI);
+            return SpawnHoneySpike(pos, rot);
+
+        }
+
+
     }
 }

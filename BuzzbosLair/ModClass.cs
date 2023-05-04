@@ -27,7 +27,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.2.1.5 : Added Buzzbo Regen";
+        public override string GetVersion() => "0.2.1.6 : Disabled Buzzbo recoil";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -67,22 +67,5 @@ namespace BuzzbosLair
             Log("Initialized");
         }
 
-        internal static GameObject SpawnHoneySpike(Vector3 pos, float rot)
-        {
-            GameObject Spike = GameObject.Instantiate(_gameObjects["Honey Spike"]);
-            Spike.SetActive(true);
-            Spike.transform.localPosition = pos;
-            Spike.transform.localRotation = Quaternion.Euler(0, 0, rot);
-            Spike.GetComponent<HiveKnightStinger>().direction = rot;
-
-            return Spike;
-        }
-
-        internal static GameObject SpawnTargetedHoneySpike(Vector3 pos, Vector3 target)
-        {
-            float rot = Mathf.Atan2(target.y - pos.y, target.x - pos.x) * (180 / Mathf.PI);
-            return SpawnHoneySpike(pos, rot);
-
-        }
     }
 }
