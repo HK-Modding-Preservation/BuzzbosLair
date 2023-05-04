@@ -14,6 +14,7 @@ namespace BuzzbosLair
 
         private bool awakened;
 
+        //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
 
@@ -31,8 +32,10 @@ namespace BuzzbosLair
         {
 
             SetAwakened(false);
-
             StartCoroutine(TestTimer());
+
+            //_hm.hp 
+            _alter_hm.SetRegen(0.5f, 0.1f, 1);
 
         }
 
