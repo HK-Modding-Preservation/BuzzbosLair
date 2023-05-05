@@ -27,7 +27,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.2.1.6 : Disabled Buzzbo recoil";
+        public override string GetVersion() => "0.2.1.9 : Testing Awakening mechanics";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {

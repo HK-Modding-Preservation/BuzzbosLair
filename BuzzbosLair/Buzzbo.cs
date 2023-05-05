@@ -1,4 +1,5 @@
 ﻿using FriendCore;
+using SFCore.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,18 +40,40 @@ namespace BuzzbosLair
         {
 
             SetAwakened(false);
-            StartCoroutine(TestTimer());
 
             //_hm.hp 
             _alter_hm.SetRegen(0.5f, 0.1f, 1);
 
             _recoil.enabled = false;
 
+            InitFSM();
         }
 
         private void InitFSM() {
-            
 
+            _stun_control.enabled = false;
+
+            
+            _control.AddState("Awaken");
+            _control.GetState("Awaken").AddFsmTransition("PHASE CHECK", "Phase Check");
+
+            _control.AddState("Check Awakening");
+            _control.GetState("Check Awakening").AddFsmTransition("AWAKEN", "Awaken");
+            _control.GetState("Check Awakening").AddFsmTransition("FINISHED", "Phase Check");
+
+            _control.GetState("Idle").ChangeFsmTransition("FINISHED", "Check Awakening");
+            _control.GetState("Idle").ChangeFsmTransition("TOOK DAMAGE", "Check Awakening");
+
+            _control.GetState("Check Awakening").AddMethod(() =>
+            {
+                if (awakened) SetAwakened(false);
+                else _control.SendEvent("AWAKEN");
+            });
+            _control.GetState("Awaken").AddMethod(() =>
+            {
+                SetAwakened(true);
+                _control.SendEvent("PHASE CHECK");
+            });
 
         }
 
@@ -74,14 +97,11 @@ namespace BuzzbosLair
 
         }
 
-        IEnumerator TestTimer()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(3);
-                SetAwakened(!awakened);
-            }
-        }
+
+
+        #region Coroutines
+
+        #endregion
 
         internal static GameObject SpawnHoneySpike(Vector3 pos, float rot)
         {
