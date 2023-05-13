@@ -18,6 +18,7 @@ namespace BuzzbosLair
         private bool awakened;
 
         private int awakening_tracker = 0;
+        private int slash_chain_tracker = 3;
 
         //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
@@ -90,9 +91,23 @@ namespace BuzzbosLair
             _control.ChangeTransition("SChain Slash 2", "FINISHED", "SChain Recover");
             _control.ChangeTransition("SChain Recover", "FINISHED", "SChain Repeat Check");
 
+            _control.AddTransition("SChain Repeat Check", "END", "Start Fall");
+            _control.AddTransition("SChain Repeat Check", "CONTINUE", "SChain Out");
+
             _control.GetState("SChain Repeat Check").AddMethod(() =>
             {
+                slash_chain_tracker -- ;
 
+                if (slash_chain_tracker <= 0)
+                {
+                    slash_chain_tracker = 3;
+                    _control.SendEvent("END");
+                }
+                else
+                {
+                    GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                    _control.SendEvent("CONTINUE");
+                }
             });
 
             //_control.GetAction<Wait>("SChain Pause", )

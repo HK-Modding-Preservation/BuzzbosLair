@@ -27,7 +27,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.2.1.14 : Awakened attack selection";
+        public override string GetVersion() => "0.2.1.15 : Slash Chain";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
