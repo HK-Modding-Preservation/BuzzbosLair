@@ -1,4 +1,6 @@
 ﻿using FriendCore;
+using HutongGames.PlayMaker.Actions;
+using Modding;
 using SFCore.Utils;
 using System;
 using System.Collections;
@@ -14,6 +16,8 @@ namespace BuzzbosLair
     {
 
         private bool awakened;
+
+        private int awakening_tracker = 0;
 
         //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
@@ -53,27 +57,91 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
-            
-            _control.AddState("Awaken");
-            _control.GetState("Awaken").AddFsmTransition("PHASE CHECK", "Phase Check");
+            #region Awakening states
+                _control.AddState("Awaken");
+                _control.GetState("Awaken").AddFsmTransition("PHASE CHECK", "Phase Check");
 
-            _control.AddState("Check Awakening");
-            _control.GetState("Check Awakening").AddFsmTransition("AWAKEN", "Awaken");
-            _control.GetState("Check Awakening").AddFsmTransition("FINISHED", "Phase Check");
+                _control.AddState("Check Awakening");
+                _control.GetState("Check Awakening").AddFsmTransition("AWAKEN", "Awaken");
+                _control.GetState("Check Awakening").AddFsmTransition("FINISHED", "Phase Check");
 
-            _control.GetState("Idle").ChangeFsmTransition("FINISHED", "Check Awakening");
-            _control.GetState("Idle").ChangeFsmTransition("TOOK DAMAGE", "Check Awakening");
+                _control.GetState("Idle").ChangeFsmTransition("FINISHED", "Check Awakening");
+                _control.GetState("Idle").ChangeFsmTransition("TOOK DAMAGE", "Check Awakening");
 
-            _control.GetState("Check Awakening").AddMethod(() =>
-            {
-                if (awakened) SetAwakened(false);
-                else _control.SendEvent("AWAKEN");
-            });
-            _control.GetState("Awaken").AddMethod(() =>
-            {
-                SetAwakened(true);
-                _control.SendEvent("PHASE CHECK");
-            });
+                _control.GetState("Check Awakening").AddMethod(() =>
+                {
+                    awakening_tracker -= 1;
+
+
+                    //if (awakened) SetAwakened(false);
+                    //else _control.SendEvent("AWAKEN");
+                });
+                _control.GetState("Awaken").AddMethod(() =>
+                {
+                    SetAwakened(true);
+                    _control.SendEvent("PHASE CHECK");
+                });
+            #endregion
+
+            #region Create Awakened states
+
+            // Slash Chain (SChain)
+                #region Slash Chain
+            _control.CopyState("TeleOut 1", "SChain Init");
+            _control.CopyState("TeleOut 2", "SChain Out");
+            _control.CopyState("Tele Pause", "SChain Pause");
+            _control.CopyState("Tele Pos", "SChain Pos");
+            _control.CopyState("Aim L", "SChain L");
+            _control.CopyState("Aim R", "SChain R");
+            _control.CopyState("TeleIn 1", "SChain In 1");
+            _control.CopyState("TeleIn 2", "SChain In 2");
+            _control.CopyState("Slash 1", "SChain Slash 1");
+            _control.CopyState("Slash 2", "SChain Slash 2");
+            _control.CopyState("Slash Recover", "SChain Recover");
+
+            _control.AddState("SChain Repeat Check");
+
+            _control.ChangeTransition("SChain Init", "FINISHED", "SChain Out");
+            _control.ChangeTransition("SChain Out", "FINISHED", "SChain Pause");
+            _control.ChangeTransition("SChain Pause", "FINISHED", "SChain Pos");
+            _control.ChangeTransition("SChain Pos", "L", "SChain L");
+            _control.ChangeTransition("SChain Pos", "R", "SChain R");
+            _control.ChangeTransition("SChain L", "R", "SChain R");
+            _control.ChangeTransition("SChain R", "L", "SChain L");
+            _control.ChangeTransition("SChain L", "FINISHED", "SChain In 1");
+            _control.ChangeTransition("SChain R", "FINISHED", "SChain In 1");
+            _control.ChangeTransition("SChain In 1", "FINISHED", "SChain In 2");
+            _control.ChangeTransition("SChain In 2", "FINISHED", "SChain Slash 1");
+            _control.ChangeTransition("SChain Slash 1", "FINISHED", "SChain Slash 2");
+            _control.ChangeTransition("SChain Slash 2", "FINISHED", "SChain Recover");
+            _control.ChangeTransition("SChain Recover", "FINISHED", "SChain Repeat Check");
+
+            //_control.GetAction<Wait>("SChain Pause", )
+
+                #endregion
+
+            // Spike Spam (SSpam)
+            _control.CopyState("TeleOut 1", "SSpam Init");
+            _control.CopyState("TeleOut 2", "SSpam Out");
+            _control.CopyState("Tele Pos", "SSpam Pos");
+            _control.CopyState("TeleIn 1", "SSpam In 1");
+            _control.CopyState("Slash 1", "SSpam Slash");
+            _control.CopyState("TeleIn 2", "SSpam End");
+
+            // Dash-Teleport (Awakened Dash)
+
+            // Scream-Jump Chain (JChain)
+
+            //
+
+            #endregion
+
+
+            _control.AddState("TeleIn Spikes");
+            _control.GetState("TeleIn Spikes").AddFsmTransition("FINISHED", "TeleIn 2");
+            _control.GetState("TeleIn Spikes").AddMethod(() => { StartCoroutine(TeleportSpikes()); });
+
+            _control.GetState("TeleIn 1").ChangeFsmTransition("FINISHED", "TeleIn Spikes");
 
         }
 
@@ -100,6 +168,47 @@ namespace BuzzbosLair
 
 
         #region Coroutines
+
+        IEnumerator TeleportSpikes()
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            GameObject[] Spikes = new GameObject[7];
+
+            for (int i = 0; i < 7; i++)
+            {
+                Vector3 spikePos;
+                float spikeRot = 0;
+
+                switch (gameObject.transform.localScale.x)
+                {
+                    case -1: // Facing right
+                        spikeRot = 45 - i * 22.5f;
+                        break;
+                    case 1: // Facing left
+                        spikeRot = 135 + i * 22.5f;
+                        break;
+                }
+                spikePos = this.transform.position;// + new Vector3(Mathf.Cos(spikeRot * 0.0174532924f), Mathf.Sin(spikeRot * 0.0174532924f))*4;
+
+                Spikes[i] = SpawnHoneySpike(spikePos, spikeRot);
+
+                ReflectionHelper.SetField<HiveKnightStinger, float>(Spikes[i].GetComponent<HiveKnightStinger>(), "speed", 0.80f * 25f);
+            }
+
+            yield return new WaitForSeconds(0.2f);
+            for (int i = 0; i < 7; i++)
+            {
+                ReflectionHelper.SetField<HiveKnightStinger, float>(Spikes[i].GetComponent<HiveKnightStinger>(), "speed", 0f);
+            }
+
+            yield return new WaitForSeconds(0.2f);
+            for (int i = 0; i < 7; i++)
+            {
+                ReflectionHelper.SetField<HiveKnightStinger, float>(Spikes[i].GetComponent<HiveKnightStinger>(), "speed", 30f);
+            }
+
+        }
 
         #endregion
 

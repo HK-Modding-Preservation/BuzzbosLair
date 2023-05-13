@@ -70,11 +70,11 @@ namespace BuzzbosLair
         {
             while (_control.ActiveStateName == "Firing" || _control.ActiveStateName == "Hit")
             {
-                yield return new WaitForSeconds(0.05f);//0.075f);
-                float rot = transform.rotation.eulerAngles.z;//Mathf.Atan2(HeroController.instance.transform.position.y - transform.position.y, HeroController.instance.transform.position.x - transform.position.x) * (180 / Mathf.PI);
+                yield return new WaitForSeconds(0.05f);
+                float rot = transform.rotation.eulerAngles.z;
                 rot += UnityEngine.Random.Range(-15, 15) - 90;
 
-                GameObject spike =  //BuzzbosLair.SpawnHoneySpike(_firing_mouth.transform.position, rot);
+                GameObject spike = 
                     GameObject.Instantiate(
                     BuzzbosLair._gameObjects["Spiny Husk"].
                     LocateMyFSM("Attack").GetAction<FlingObjectsFromGlobalPool>("Fire", 0).gameObject.Value
@@ -86,10 +86,6 @@ namespace BuzzbosLair
 
                 spike.GetComponent<Rigidbody2D>().velocity = new Vector2(35f * Mathf.Cos(rot * 0.017453292f), 35f * Mathf.Sin(rot * 0.017453292f));
 
-                //spike.AddComponent<HiveKnightStinger>();
-                //spike.GetComponent<HiveKnightStinger>().direction = rot;
-
-                //ReflectionHelper.SetField<HiveKnightStinger, float>(spike.GetComponent<HiveKnightStinger>(), "speed", 35f);
             }
         }
 
