@@ -57,32 +57,6 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
-            #region Awakening states
-                _control.AddState("Awaken");
-                _control.GetState("Awaken").AddFsmTransition("PHASE CHECK", "Phase Check");
-
-                _control.AddState("Check Awakening");
-                _control.GetState("Check Awakening").AddFsmTransition("AWAKEN", "Awaken");
-                _control.GetState("Check Awakening").AddFsmTransition("FINISHED", "Phase Check");
-
-                _control.GetState("Idle").ChangeFsmTransition("FINISHED", "Check Awakening");
-                _control.GetState("Idle").ChangeFsmTransition("TOOK DAMAGE", "Check Awakening");
-
-                _control.GetState("Check Awakening").AddMethod(() =>
-                {
-                    awakening_tracker -= 1;
-
-
-                    //if (awakened) SetAwakened(false);
-                    //else _control.SendEvent("AWAKEN");
-                });
-                _control.GetState("Awaken").AddMethod(() =>
-                {
-                    SetAwakened(true);
-                    _control.SendEvent("PHASE CHECK");
-                });
-            #endregion
-
             #region Create Awakened states
 
             // Slash Chain (SChain)
@@ -116,26 +90,82 @@ namespace BuzzbosLair
             _control.ChangeTransition("SChain Slash 2", "FINISHED", "SChain Recover");
             _control.ChangeTransition("SChain Recover", "FINISHED", "SChain Repeat Check");
 
+            _control.GetState("SChain Repeat Check").AddMethod(() =>
+            {
+
+            });
+
             //_control.GetAction<Wait>("SChain Pause", )
 
                 #endregion
 
             // Spike Spam (SSpam)
+                #region Spike Spam
             _control.CopyState("TeleOut 1", "SSpam Init");
             _control.CopyState("TeleOut 2", "SSpam Out");
             _control.CopyState("Tele Pos", "SSpam Pos");
             _control.CopyState("TeleIn 1", "SSpam In 1");
             _control.CopyState("Slash 1", "SSpam Slash");
             _control.CopyState("TeleIn 2", "SSpam End");
+                #endregion
 
             // Dash-Teleport (Awakened Dash)
 
             // Scream-Jump Chain (JChain)
 
-            //
+            // 
+
+            #region Awakened attack select
+
+            _control.AddState("Awakened Attack Select");
+            _control.AddTransition("Awakened Attack Select", "SLASH CHAIN", "SChain Init");
+            _control.GetState("Awakened Attack Select").AddMethod(() =>
+            {
+                _control.SendEvent("SLASH CHAIN");
+            });
+
+                #endregion
 
             #endregion
 
+            #region Awakening states
+            _control.AddState("Awaken");
+            _control.GetState("Awaken").AddFsmTransition("AWAKENED ATTACKS", "Awakened Attack Select");
+
+            _control.AddState("Check Awakening");
+            _control.GetState("Check Awakening").AddFsmTransition("AWAKEN", "Awaken");
+            _control.GetState("Check Awakening").AddFsmTransition("AWAKENED ATTACKS", "Awakened Attack Select");
+            _control.GetState("Check Awakening").AddFsmTransition("FINISHED", "Phase Check");
+
+            _control.GetState("Idle").ChangeFsmTransition("FINISHED", "Check Awakening");
+            _control.GetState("Idle").ChangeFsmTransition("TOOK DAMAGE", "Check Awakening");
+
+            _control.GetState("Check Awakening").AddMethod(() =>
+            {
+                awakening_tracker -= 1;
+
+                if (awakening_tracker <= 0)
+                {
+                    if (awakened) SetAwakened(false);
+
+                    if (120 + (awakening_tracker * 5) < UnityEngine.Random.Range(1, 100))
+                    {
+                        _control.SendEvent("AWAKEN");
+                        awakening_tracker = 5;
+                    }
+                }
+                else
+                {
+                    _control.SendEvent("AWAKENED ATTACKS");
+                }
+
+            });
+            _control.GetState("Awaken").AddMethod(() =>
+            {
+                SetAwakened(true);
+                _control.SendEvent("AWAKENED ATTACKS");
+            });
+            #endregion
 
             _control.AddState("TeleIn Spikes");
             _control.GetState("TeleIn Spikes").AddFsmTransition("FINISHED", "TeleIn 2");
