@@ -19,6 +19,7 @@ namespace BuzzbosLair
 
         private int awakening_tracker = 0;
         private int slash_chain_tracker = 3;
+        private bool spike_spamming = false;
 
         //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
@@ -113,15 +114,58 @@ namespace BuzzbosLair
 
                 #endregion
 
-                #region Spike Spam (Spike Spam)
+                #region Spike Spam (SSpam)
             _control.CopyState("TeleOut 1", "SSpam Init");
             _control.CopyState("TeleOut 2", "SSpam Out");
             _control.CopyState("Tele Pos", "SSpam Pos");
-            _control.CopyState("TeleIn 1", "SSpam In 1");
+            _control.CopyState("TeleIn 1", "SSpam In");
             _control.CopyState("Slash 1", "SSpam Slash");
             _control.CopyState("TeleIn 2", "SSpam End");
-            #endregion
-            
+
+            _control.ChangeTransition("SSpam Init", "FINISHED", "SSpam Out");
+            _control.ChangeTransition("SSpam Out", "FINISHED", "SSpam Pos");
+            _control.ChangeTransition("SSpam In", "FINISHED", "SSpam Slash");
+            _control.ChangeTransition("SSpam End", "FINISHED", "SChain Slash 2");   
+
+            _control.RemoveTransition("SSpam Pos", "L");
+            _control.RemoveTransition("SSpam Pos", "R");
+            _control.RemoveTransition("SSpam Slash", "FINISHED");
+
+            _control.AddTransition("SSpam Pos", "POSITIONED", "SSpam In");
+            _control.AddTransition("SSpam Slash", "CONTINUE", "SSpam Out");
+            _control.AddTransition("SSpam Slash", "END", "SSpam End");
+
+            _control.GetState("SSpam Init").AddMethod(() =>
+            {
+                StartCoroutine(SSpamTimer(7f));
+
+            });
+            _control.GetState("SSpam Pos").AddMethod(() =>
+            {
+                float _distance = 0;
+                float xPos = 69.2f;
+                float yPos = 32;
+                while (_distance < 6.5f)
+                {
+                    xPos = UnityEngine.Random.Range(58.3f, 79.6f);
+                    yPos = UnityEngine.Random.Range(27.3f, 40);
+                    _distance = Mathf.Sqrt((xPos - HeroController.instance.transform.position.x) * (xPos - HeroController.instance.transform.position.x) + (yPos - HeroController.instance.transform.position.y) * (yPos - HeroController.instance.transform.position.y));
+                }
+                _control.FsmVariables.GetFsmFloat("X Pos").Value = xPos;
+                _control.FsmVariables.GetFsmFloat("Y Pos").Value = yPos;
+                _control.SendEvent("POSITIONED");
+            });
+            _control.GetState("SSpam Slash").AddMethod(() =>
+            {
+                StartCoroutine(SSpamSlash());
+            });
+            _control.GetAction<ActivateGameObject>("SSpam Slash", 2).activate = false;
+            _control.GetAction<SetVelocity2d>("SSpam Slash", 5).x = 0;
+            _control.GetState("SSpam End").RemoveAction(2);
+            _control.GetState("SSpam End").RemoveAction(1);
+
+                #endregion
+
                 #region Dash-Teleport (Awakened Dash)
             _control.CopyState("Dash Antic", "Awakened Dash Antic");
             _control.CopyState("Dash", "Awakened Dash");
@@ -150,10 +194,25 @@ namespace BuzzbosLair
             _control.AddState("Awakened Attack Select");
             _control.AddTransition("Awakened Attack Select", "SLASH CHAIN", "SChain Init");
             _control.AddTransition("Awakened Attack Select", "DASH TELEPORT", "Awakened Dash Antic");
-            
+            _control.AddTransition("Awakened Attack Select", "SPIKE SPAM", "SSpam Init");
+
             _control.GetState("Awakened Attack Select").AddMethod(() =>
             {
-                _control.SendEvent("DASH TELEPORT");
+
+                float roll = UnityEngine.Random.Range(0f, 100f);
+                if (roll < 60)
+                {
+                    _control.SendEvent("DASH TELEPORT");
+                }
+                else if (roll < 90)
+                {
+                    _control.SendEvent("SLASH CHAIN");
+                }
+                else
+                {
+                    _control.SendEvent("SPIKE SPAM");
+                }
+                
             });
                 #endregion
 
@@ -268,6 +327,34 @@ namespace BuzzbosLair
                 ReflectionHelper.SetField<HiveKnightStinger, float>(Spikes[i].GetComponent<HiveKnightStinger>(), "speed", 30f);
             }
 
+        }
+
+        IEnumerator SSpamTimer(float t)
+        {
+            _alter_hm.SetRegenEnabled(false);
+            spike_spamming = true;
+            yield return new WaitForSeconds(t);
+            spike_spamming = false;
+            _alter_hm.SetRegenEnabled(true);
+        }
+
+        IEnumerator SSpamSlash()
+        {
+            yield return new WaitForSeconds(0.02f);
+            GameObject spike = SpawnTargetedHoneySpike(
+                this.transform.position,
+                HeroController.instance.transform.position);
+            
+            yield return new WaitForSeconds(0.03f);
+            if(spike_spamming)
+            {
+                _control.SendEvent("CONTINUE");
+            }
+            else
+            {
+                slash_chain_tracker = 0;
+                _control.SendEvent("END");
+            }
         }
 
         #endregion

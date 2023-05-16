@@ -27,7 +27,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.2.1.19 : Dash-Teleport";
+        public override string GetVersion() => "0.2.3.8 : Spike Spam";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
