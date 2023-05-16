@@ -58,10 +58,9 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
-            #region Create Awakened states
+            #region Awakened attack states
 
-            // Slash Chain (SChain)
-                #region Slash Chain
+                #region Slash Chain (SChain)
             _control.CopyState("TeleOut 1", "SChain Init");
             _control.CopyState("TeleOut 2", "SChain Out");
             _control.CopyState("Tele Pause", "SChain Pause");
@@ -114,36 +113,53 @@ namespace BuzzbosLair
 
                 #endregion
 
-            // Spike Spam (SSpam)
-                #region Spike Spam
+                #region Spike Spam (Spike Spam)
             _control.CopyState("TeleOut 1", "SSpam Init");
             _control.CopyState("TeleOut 2", "SSpam Out");
             _control.CopyState("Tele Pos", "SSpam Pos");
             _control.CopyState("TeleIn 1", "SSpam In 1");
             _control.CopyState("Slash 1", "SSpam Slash");
             _control.CopyState("TeleIn 2", "SSpam End");
+            #endregion
+            
+                #region Dash-Teleport (Awakened Dash)
+            _control.CopyState("Dash Antic", "Awakened Dash Antic");
+            _control.CopyState("Dash", "Awakened Dash");
+
+            _control.AddState("Awakened Dash Tele");
+
+            _control.ChangeTransition("Awakened Dash Antic", "FINISHED", "Awakened Dash");
+            _control.ChangeTransition("Awakened Dash", "FINISHED", "Awakened Dash Tele");
+            
+            _control.AddTransition("Awakened Dash Tele", "TELEPORT", "SChain Out");
+
+            _control.GetState("Awakened Dash Tele").AddMethod(() =>
+            {
+                slash_chain_tracker = 1;
+                transform.Find("Stab Hit").gameObject.SetActive(false);
+                GetComponent<Rigidbody2D>().gravityScale = 0f;
+                GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                _control.SendEvent("TELEPORT");
+            });
+                #endregion
+            
+                #region Scream-Jump Chain (JChain)
                 #endregion
 
-            // Dash-Teleport (Awakened Dash)
-
-            // Scream-Jump Chain (JChain)
-
-            // 
-
-            #region Awakened attack select
-
+                #region Awakened attack select
             _control.AddState("Awakened Attack Select");
             _control.AddTransition("Awakened Attack Select", "SLASH CHAIN", "SChain Init");
+            _control.AddTransition("Awakened Attack Select", "DASH TELEPORT", "Awakened Dash Antic");
+            
             _control.GetState("Awakened Attack Select").AddMethod(() =>
             {
-                _control.SendEvent("SLASH CHAIN");
+                _control.SendEvent("DASH TELEPORT");
             });
-
                 #endregion
 
             #endregion
 
-            #region Awakening states
+            #region Awakening management states
             _control.AddState("Awaken");
             _control.GetState("Awaken").AddFsmTransition("AWAKENED ATTACKS", "Awakened Attack Select");
 
@@ -166,7 +182,6 @@ namespace BuzzbosLair
                     if (120 + (awakening_tracker * 5) < UnityEngine.Random.Range(1, 100))
                     {
                         _control.SendEvent("AWAKEN");
-                        awakening_tracker = 5;
                     }
                 }
                 else
@@ -178,6 +193,7 @@ namespace BuzzbosLair
             _control.GetState("Awaken").AddMethod(() =>
             {
                 SetAwakened(true);
+                awakening_tracker = UnityEngine.Random.Range(6, 9);
                 _control.SendEvent("AWAKENED ATTACKS");
             });
             #endregion
@@ -209,7 +225,6 @@ namespace BuzzbosLair
             awakened = toAwakened;
 
         }
-
 
 
         #region Coroutines
