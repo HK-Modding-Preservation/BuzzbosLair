@@ -1,4 +1,5 @@
 ﻿using FriendCore;
+using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using Modding;
 using SFCore.Utils;
@@ -16,7 +17,6 @@ namespace BuzzbosLair
     {
 
         private bool awakened;
-
         private int awakening_tracker = 0;
         private int slash_chain_tracker = 3;
         private bool spike_spamming = false;
@@ -29,6 +29,8 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
         private PlayMakerFSM _stun_control;
+
+        private GameObject _roar_emitter;
 
         void Awake()
         {
@@ -59,9 +61,51 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
+
+            #region Roar stun
+            // Stun the Knight during intro roar
+            _control.InsertAction("Intro", new SendEventByName()
+            {
+                eventTarget = new FsmEventTarget()
+                {
+                    target = FsmEventTarget.EventTarget.GameObject,
+                    gameObject = new FsmOwnerDefault()
+                    {
+                        OwnerOption = OwnerDefaultOption.SpecifyGameObject,
+                        GameObject = HeroController.instance.gameObject
+                    }
+                },
+                sendEvent = "ROAR ENTER",
+                delay = 0f,
+                everyFrame = false
+            }, 2);
+            _control.AddMethod("Intro", () => {
+                _roar_emitter = GameObject.Instantiate(_control.FsmVariables.GetFsmGameObject("Roar Emitter").Value);
+                _roar_emitter.SetActive(false);
+            });
+            _control.InsertAction("Intro End", new SendEventByName()
+            {
+                eventTarget = new FsmEventTarget()
+                {
+                    target = FsmEventTarget.EventTarget.GameObject,
+                    gameObject = new FsmOwnerDefault()
+                    {
+                        OwnerOption = OwnerDefaultOption.SpecifyGameObject,
+                        GameObject = HeroController.instance.gameObject
+                    }
+                },
+                sendEvent = "ROAR EXIT",
+                delay = 0f,
+                everyFrame = false
+            }, 1);
+            #endregion Roar stun
+
+
             #region Awakened attack states
 
-                #region Slash Chain (SChain)
+            #region Slash Chain (SChain)
+
+            // Create attack
             _control.CopyState("TeleOut 1", "SChain Init");
             _control.CopyState("TeleOut 2", "SChain Out");
             _control.CopyState("Tele Pause", "SChain Pause");
@@ -110,7 +154,11 @@ namespace BuzzbosLair
                 }
             });
 
-            //_control.GetAction<Wait>("SChain Pause", )
+            // Edit values
+            _control.GetAction<Wait>("SChain Pause", 0).time = 0.05f;
+            _control.GetAction<Wait>("SChain In 2", 1).time = 0.3f;
+            _control.GetAction<FloatOperator>("SChain Slash 1", 4).float1 = -54f;
+            _control.GetAction<DecelerateXY>("SChain Recover", 2).decelerationX = 0.8f;
 
                 #endregion
 
@@ -167,6 +215,8 @@ namespace BuzzbosLair
                 #endregion
 
                 #region Dash-Teleport (Awakened Dash)
+
+            // Create attack
             _control.CopyState("Dash Antic", "Awakened Dash Antic");
             _control.CopyState("Dash", "Awakened Dash");
 
@@ -185,6 +235,14 @@ namespace BuzzbosLair
                 GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 _control.SendEvent("TELEPORT");
             });
+
+            // Edit values
+            _control.GetState("Awakened Dash Antic").InsertMethod(() =>
+            {
+                GetComponent<tk2dSpriteAnimator>().Library.GetClipByName("Stab Antic").fps = 20;
+            }, 0);
+            _control.GetAction<FloatOperator>("Awakened Dash", 1).float1 = -75f;
+
                 #endregion
             
                 #region Scream-Jump Chain (JChain)
@@ -229,6 +287,8 @@ namespace BuzzbosLair
 
             _control.GetState("Idle").ChangeFsmTransition("FINISHED", "Check Awakening");
             _control.GetState("Idle").ChangeFsmTransition("TOOK DAMAGE", "Check Awakening");
+            _control.GetState("Land").AddFsmTransition("SKIP IDLE", "Check Awakening");
+            _control.GetState("Land").AddMethod(() => { if (awakened) _control.SendEvent("SKIP IDLE"); });
 
             _control.GetState("Check Awakening").AddMethod(() =>
             {
@@ -257,11 +317,18 @@ namespace BuzzbosLair
             });
             #endregion
 
+
+            // reg attacks
             _control.AddState("TeleIn Spikes");
             _control.GetState("TeleIn Spikes").AddFsmTransition("FINISHED", "TeleIn 2");
             _control.GetState("TeleIn Spikes").AddMethod(() => { StartCoroutine(TeleportSpikes()); });
 
             _control.GetState("TeleIn 1").ChangeFsmTransition("FINISHED", "TeleIn Spikes");
+
+            _control.GetState("Dash Antic").InsertMethod(() =>
+            {
+                GetComponent<tk2dSpriteAnimator>().Library.GetClipByName("Stab Antic").fps = 15;
+            }, 0);
 
         }
 
@@ -287,6 +354,11 @@ namespace BuzzbosLair
 
 
         #region Coroutines
+
+        IEnumerator AwakeningSequence()
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
         IEnumerator TeleportSpikes()
         {
