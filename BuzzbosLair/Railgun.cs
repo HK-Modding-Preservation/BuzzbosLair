@@ -84,7 +84,7 @@ namespace BuzzbosLair
                 spike.transform.localPosition = _firing_mouth.transform.position;
                 spike.transform.localRotation = Quaternion.Euler(0, 0, rot);
 
-                spike.GetComponent<Rigidbody2D>().velocity = new Vector2(35f * Mathf.Cos(rot * 0.017453292f), 35f * Mathf.Sin(rot * 0.017453292f));
+                spike.GetComponent<Rigidbody2D>().velocity = 35f * new Vector2(Mathf.Cos(rot * 0.017453292f), Mathf.Sin(rot * 0.017453292f));
 
             }
         }

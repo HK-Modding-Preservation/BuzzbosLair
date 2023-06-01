@@ -26,11 +26,16 @@ namespace BuzzbosLair
         private AlterInfectedEnemyEffects _alter_blood;
 
         private Recoil _recoil;
+        private tk2dSpriteAnimator _anim;
 
         private PlayMakerFSM _control;
         private PlayMakerFSM _stun_control;
 
         private GameObject _roar_emitter;
+        private GameObject _shadow_recharge;
+
+        private static float shadow_recharge_time = 1f;
+        
 
         void Awake()
         {
@@ -38,6 +43,13 @@ namespace BuzzbosLair
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
 
             _recoil = gameObject.GetComponent<Recoil>();
+            _anim = gameObject.GetComponent<tk2dSpriteAnimator>();
+
+            _shadow_recharge = Instantiate(HeroController.instance.gameObject.transform.Find("Effects/Shadow Recharge").gameObject, this.gameObject.transform);
+            
+            _shadow_recharge.transform.localScale *= 3;
+            _shadow_recharge.LocateMyFSM("Recharge Effect").FsmVariables.GetFsmFloat("Shadow Recharge Time").Value = shadow_recharge_time;
+
 
             _control = gameObject.LocateMyFSM("Control");
             _stun_control = gameObject.LocateMyFSM("Stun Control");
@@ -309,12 +321,7 @@ namespace BuzzbosLair
                 }
 
             });
-            _control.GetState("Awaken").AddMethod(() =>
-            {
-                SetAwakened(true);
-                awakening_tracker = UnityEngine.Random.Range(6, 9);
-                _control.SendEvent("AWAKENED ATTACKS");
-            });
+            _control.GetState("Awaken").AddMethod(() => { StartCoroutine(AwakeningSequence()); });
             #endregion
 
 
@@ -357,7 +364,31 @@ namespace BuzzbosLair
 
         IEnumerator AwakeningSequence()
         {
+
+            transform.GetComponent<BoxCollider2D>().enabled = false;
+            transform.GetComponent<Rigidbody2D>().isKinematic = true;
+
+            _anim.Play("Intro");
+
+            GameObject roar = Instantiate(_roar_emitter);
+            roar.transform.SetParent(transform);
+            roar.transform.localPosition = Vector3.zero;
+            roar.SetActive(true);
+
+            _shadow_recharge.SetActive(true);
+            yield return new WaitForSeconds(shadow_recharge_time);
+            SetAwakened(true);
+            awakening_tracker = UnityEngine.Random.Range(6, 9);
+
             yield return new WaitForSeconds(1f);
+
+            roar.LocateMyFSM("emitter").SendEvent("END");
+            _anim.Play("Recover");
+            transform.GetComponent<BoxCollider2D>().enabled = true;
+            transform.GetComponent<Rigidbody2D>().isKinematic = false;
+
+            _control.SendEvent("AWAKENED ATTACKS");
+
         }
 
         IEnumerator TeleportSpikes()
@@ -449,6 +480,6 @@ namespace BuzzbosLair
 
         }
 
-
+        
     }
 }
