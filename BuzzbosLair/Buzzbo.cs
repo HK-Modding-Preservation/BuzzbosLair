@@ -31,6 +31,7 @@ namespace BuzzbosLair
         private PlayMakerFSM _control;
         private PlayMakerFSM _stun_control;
 
+        private Dictionary<Damagers, GameObject> _damagers;
         private GameObject _roar_emitter;
         private GameObject _shadow_recharge;
 
@@ -45,6 +46,13 @@ namespace BuzzbosLair
             _recoil = gameObject.GetComponent<Recoil>();
             _anim = gameObject.GetComponent<tk2dSpriteAnimator>();
 
+            _damagers = new Dictionary<Damagers, GameObject>()
+            {
+                { Damagers.Self, gameObject },
+                { Damagers.Stab, transform.Find("Stab Hit").gameObject },
+                { Damagers.Slash1, transform.Find("Slash 1").gameObject },
+                { Damagers.Slash2, transform.Find("Slash 2").gameObject },
+            };
             _shadow_recharge = Instantiate(HeroController.instance.gameObject.transform.Find("Effects/Shadow Recharge").gameObject, this.gameObject.transform);
             
             _shadow_recharge.transform.localScale *= 3;
@@ -115,7 +123,7 @@ namespace BuzzbosLair
 
             #region Awakened attack states
 
-            #region Slash Chain (SChain)
+                #region Slash Chain (SChain)
 
             // Create attack
             _control.CopyState("TeleOut 1", "SChain Init");
@@ -242,7 +250,7 @@ namespace BuzzbosLair
             _control.GetState("Awakened Dash Tele").AddMethod(() =>
             {
                 slash_chain_tracker = 1;
-                transform.Find("Stab Hit").gameObject.SetActive(false);
+                _damagers[Damagers.Stab].gameObject.SetActive(false);
                 GetComponent<Rigidbody2D>().gravityScale = 0f;
                 GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 _control.SendEvent("TELEPORT");
@@ -255,13 +263,13 @@ namespace BuzzbosLair
             }, 0);
             _control.GetAction<FloatOperator>("Awakened Dash", 1).float1 = -75f;
 
-                #endregion
-            
+            #endregion
+
                 #region Scream-Jump Chain (JChain)
-                #endregion
+            #endregion
 
                 #region Awakened attack select
-            _control.AddState("Awakened Attack Select");
+            /*_control.AddState("Awakened Attack Select");
             _control.AddTransition("Awakened Attack Select", "SLASH CHAIN", "SChain Init");
             _control.AddTransition("Awakened Attack Select", "DASH TELEPORT", "Awakened Dash Antic");
             _control.AddTransition("Awakened Attack Select", "SPIKE SPAM", "SSpam Init");
@@ -283,7 +291,18 @@ namespace BuzzbosLair
                     _control.SendEvent("SPIKE SPAM");
                 }
                 
-            });
+            });*/
+
+            _control.CopyState("Phase 2", "Awakened Attack Select");
+            _control.RemoveAction("Awakened Attack Select", 0);
+            _control.ChangeFsmTransition("Awakened Attack Select", "DASH", "Awakened Dash Antic");
+            _control.ChangeFsmTransition("Awakened Attack Select", "TELE", "SChain Init");
+            _control.ChangeFsmTransition("Awakened Attack Select", "GLOB", "SSpam Init");
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[0] = 0.45f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[1] = 0.45f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[2] = 0.1f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).eventMax[2] = 1;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[2] = 6;
                 #endregion
 
             #endregion
@@ -342,15 +361,23 @@ namespace BuzzbosLair
         public void SetAwakened(bool toAwakened)
         {
 
-            if (awakened == toAwakened) return;
+            //if (awakened == toAwakened) return;
 
             if (toAwakened)
             {
+                foreach(GameObject damager in _damagers.Values)
+                {
+                    damager.GetComponent<DamageHero>().damageDealt = 2;
+                }
                 gameObject.GetComponent<tk2dSprite>().GetCurrentSpriteDef().material.mainTexture = BuzzbosLair.GetSprite(TextureStrings.BuzzboAwakened_Key).texture;
                 _alter_blood.SetColor(Presets.Colors.lifeblood);
             }
             else
             {
+                foreach (GameObject damager in _damagers.Values)
+                {
+                    damager.GetComponent<DamageHero>().damageDealt = 1;
+                }
                 gameObject.GetComponent<tk2dSprite>().GetCurrentSpriteDef().material.mainTexture = BuzzbosLair.GetSprite(TextureStrings.BuzzboNormal_Key).texture;
                 _alter_blood.SetColor(Presets.Colors.hiveblood);
             }
@@ -480,6 +507,12 @@ namespace BuzzbosLair
 
         }
 
-        
+        private enum Damagers
+        {
+            Self,
+            Stab,
+            Slash1,
+            Slash2,
+        }
     }
 }
