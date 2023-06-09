@@ -270,7 +270,6 @@ namespace BuzzbosLair
                 #region ??? Scream-Jump Chain (JChain)
             #endregion
 
-            // Barrage Attack?
                 #region Barrage-Slash (Barrage)
             _control.CopyState("TeleOut 1", "Barrage Init");
             _control.CopyState("TeleOut 2", "Barrage Out");
@@ -298,7 +297,7 @@ namespace BuzzbosLair
 
             _control.GetState("Barrage Init").AddMethod(() =>
             {
-                StartCoroutine(BarrageTimer(7f));
+                StartCoroutine(BarrageTimer(3f));
 
             });
             _control.GetState("Barrage Pos").AddMethod(() =>
@@ -318,14 +317,14 @@ namespace BuzzbosLair
             });
             _control.GetState("Barrage Slash Recover").AddMethod(() =>
             {
-                StartCoroutine(BarrageSlash(15f));
+                StartCoroutine(BarrageSlash(15f, 3));
             });
 
             _control.RemoveAction("Barrage Slash 1", 5);
 
             #endregion
 
-            #region Awakened attack select
+                #region Awakened attack select
             /*_control.AddState("Awakened Attack Select");
             _control.AddTransition("Awakened Attack Select", "SLASH CHAIN", "SChain Init");
             _control.AddTransition("Awakened Attack Select", "DASH TELEPORT", "Awakened Dash Antic");
@@ -350,17 +349,26 @@ namespace BuzzbosLair
                 
             });*/
 
-            _control.CopyState("Phase 2", "Awakened Attack Select");
-            _control.RemoveAction("Awakened Attack Select", 0);
+            _control.CopyState("Phase 3", "Awakened Attack Select");
+            //_control.RemoveAction("Awakened Attack Select", 0);
             _control.ChangeFsmTransition("Awakened Attack Select", "DASH", "Awakened Dash Antic");
             _control.ChangeFsmTransition("Awakened Attack Select", "TELE", "SChain Init");
             _control.ChangeFsmTransition("Awakened Attack Select", "GLOB", "Barrage Init");
-            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[0] = 0.45f;
-            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[1] = 0.45f;
-            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[2] = 0.1f;
+            _control.ChangeFsmTransition("Awakened Attack Select", "BEE ROAR", "SSpam Init");
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[0] = 0.40f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[1] = 0.30f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[2] = 0.20f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[3] = 0.10f;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).eventMax[0] = 3;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).eventMax[1] = 2;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).eventMax[2] = 1;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).eventMax[3] = 1;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[0] = 3;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[1] = 3;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[2] = 6;
-                #endregion
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[3] = 7;
+            _control.RemoveAction("Awakened Attack Select", 0);
+            #endregion
 
             #endregion
 
@@ -552,13 +560,16 @@ namespace BuzzbosLair
             barraging = false;
         }
 
-        IEnumerator BarrageSlash(float deviation)
+        IEnumerator BarrageSlash(float spread, int count)
         {
             yield return new WaitForSeconds(0.02f);
-            GameObject spike = SpawnTargetedHoneySpike(
+            for (int i = 0; i < count; i++)
+            {
+                GameObject spike = SpawnTargetedHoneySpike(
                 transform.position,
                 HeroController.instance.transform.position,
-                deviation);
+                spread);
+            }
             yield return new WaitForSeconds(0.03f);
             if (barraging)
             {
