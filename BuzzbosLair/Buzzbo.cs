@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace BuzzbosLair
 {
@@ -20,6 +21,7 @@ namespace BuzzbosLair
         private int awakening_tracker = 0;
         private int slash_chain_tracker = 3;
         private bool spike_spamming = false;
+        private bool barraging = false;
 
         //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
@@ -265,10 +267,65 @@ namespace BuzzbosLair
 
             #endregion
 
-                #region Scream-Jump Chain (JChain)
+                #region ??? Scream-Jump Chain (JChain)
             #endregion
 
-                #region Awakened attack select
+            // Barrage Attack?
+                #region Barrage-Slash (Barrage)
+            _control.CopyState("TeleOut 1", "Barrage Init");
+            _control.CopyState("TeleOut 2", "Barrage Out");
+            _control.CopyState("Tele Pos", "Barrage Pos");
+            _control.CopyState("TeleIn 1", "Barrage In 1");
+            _control.CopyState("TeleIn 2", "Barrage In 2");
+            _control.CopyState("Slash 1", "Barrage Slash 1");
+            _control.CopyState("Slash 2", "Barrage Slash 2");
+            _control.CopyState("Slash Recover", "Barrage Slash Recover");
+
+            _control.ChangeTransition("Barrage Init", "FINISHED", "Barrage Out");
+            _control.ChangeTransition("Barrage Out", "FINISHED", "Barrage Pos");
+            _control.ChangeTransition("Barrage In 1", "FINISHED", "Barrage In 2");
+            _control.ChangeTransition("Barrage In 2", "FINISHED", "Barrage Slash 1");
+            _control.ChangeTransition("Barrage Slash 1", "FINISHED", "Barrage Slash 2");
+            _control.ChangeTransition("Barrage Slash 2", "FINISHED", "Barrage Slash Recover");
+
+            _control.RemoveTransition("Barrage Pos", "L");
+            _control.RemoveTransition("Barrage Pos", "R");
+            _control.RemoveTransition("Barrage Slash Recover", "FINISHED");
+
+            _control.AddTransition("Barrage Pos", "POSITIONED", "Barrage In 1");
+            _control.AddTransition("Barrage Slash Recover", "CONTINUE", "Barrage Slash 1");
+            _control.AddTransition("Barrage Slash Recover", "END", "SChain Out");
+
+            _control.GetState("Barrage Init").AddMethod(() =>
+            {
+                StartCoroutine(BarrageTimer(7f));
+
+            });
+            _control.GetState("Barrage Pos").AddMethod(() =>
+            {
+                float _distance = 0;
+                float xPos = 69.2f;
+                float yPos = 32;
+                while (_distance < 6.5f)
+                {
+                    xPos = UnityEngine.Random.Range(58.3f, 79.6f);
+                    yPos = UnityEngine.Random.Range(27.3f, 40);
+                    _distance = Mathf.Sqrt((xPos - HeroController.instance.transform.position.x) * (xPos - HeroController.instance.transform.position.x) + (yPos - HeroController.instance.transform.position.y) * (yPos - HeroController.instance.transform.position.y));
+                }
+                _control.FsmVariables.GetFsmFloat("X Pos").Value = xPos;
+                _control.FsmVariables.GetFsmFloat("Y Pos").Value = yPos;
+                _control.SendEvent("POSITIONED");
+            });
+            _control.GetState("Barrage Slash Recover").AddMethod(() =>
+            {
+                StartCoroutine(BarrageSlash(15f));
+            });
+
+            _control.RemoveAction("Barrage Slash 1", 5);
+
+            #endregion
+
+            #region Awakened attack select
             /*_control.AddState("Awakened Attack Select");
             _control.AddTransition("Awakened Attack Select", "SLASH CHAIN", "SChain Init");
             _control.AddTransition("Awakened Attack Select", "DASH TELEPORT", "Awakened Dash Antic");
@@ -297,7 +354,7 @@ namespace BuzzbosLair
             _control.RemoveAction("Awakened Attack Select", 0);
             _control.ChangeFsmTransition("Awakened Attack Select", "DASH", "Awakened Dash Antic");
             _control.ChangeFsmTransition("Awakened Attack Select", "TELE", "SChain Init");
-            _control.ChangeFsmTransition("Awakened Attack Select", "GLOB", "SSpam Init");
+            _control.ChangeFsmTransition("Awakened Attack Select", "GLOB", "Barrage Init");
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[0] = 0.45f;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[1] = 0.45f;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).weights[2] = 0.1f;
@@ -472,8 +529,9 @@ namespace BuzzbosLair
         {
             yield return new WaitForSeconds(0.02f);
             GameObject spike = SpawnTargetedHoneySpike(
-                this.transform.position,
-                HeroController.instance.transform.position);
+                transform.position,
+                HeroController.instance.transform.position,
+                0);
             
             yield return new WaitForSeconds(0.03f);
             if(spike_spamming)
@@ -483,6 +541,32 @@ namespace BuzzbosLair
             else
             {
                 slash_chain_tracker = 0;
+                _control.SendEvent("END");
+            }
+        }
+
+        IEnumerator BarrageTimer(float t)
+        {
+            barraging = true;
+            yield return new WaitForSeconds(t);
+            barraging = false;
+        }
+
+        IEnumerator BarrageSlash(float deviation)
+        {
+            yield return new WaitForSeconds(0.02f);
+            GameObject spike = SpawnTargetedHoneySpike(
+                transform.position,
+                HeroController.instance.transform.position,
+                deviation);
+            yield return new WaitForSeconds(0.03f);
+            if (barraging)
+            {
+                _control.SendEvent("CONTINUE");
+            }
+            else
+            {
+                slash_chain_tracker = 1;
                 _control.SendEvent("END");
             }
         }
@@ -500,9 +584,10 @@ namespace BuzzbosLair
             return spike;
         }
 
-        internal static GameObject SpawnTargetedHoneySpike(Vector3 pos, Vector3 target)
+        internal static GameObject SpawnTargetedHoneySpike(Vector3 pos, Vector3 target, float deviation)
         {
             float rot = Mathf.Atan2(target.y - pos.y, target.x - pos.x) * (180 / Mathf.PI);
+            rot += UnityEngine.Random.Range(-deviation, deviation);
             return SpawnHoneySpike(pos, rot);
 
         }
