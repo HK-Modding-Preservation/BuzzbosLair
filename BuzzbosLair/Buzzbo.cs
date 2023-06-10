@@ -305,7 +305,7 @@ namespace BuzzbosLair
                 float _distance = 0;
                 float xPos = 69.2f;
                 float yPos = 32;
-                while (_distance < 6.5f)
+                while (_distance < 8.5f)
                 {
                     xPos = UnityEngine.Random.Range(58.3f, 79.6f);
                     yPos = UnityEngine.Random.Range(27.3f, 40);
@@ -317,7 +317,7 @@ namespace BuzzbosLair
             });
             _control.GetState("Barrage Slash Recover").AddMethod(() =>
             {
-                StartCoroutine(BarrageSlash(15f, 3));
+                StartCoroutine(BarrageSlash(30f, 3));
             });
 
             _control.RemoveAction("Barrage Slash 1", 5);
@@ -538,8 +538,8 @@ namespace BuzzbosLair
             yield return new WaitForSeconds(0.02f);
             GameObject spike = SpawnTargetedHoneySpike(
                 transform.position,
-                HeroController.instance.transform.position,
-                0);
+                HeroController.instance.transform.position
+                );
             
             yield return new WaitForSeconds(0.03f);
             if(spike_spamming)
@@ -568,7 +568,8 @@ namespace BuzzbosLair
                 GameObject spike = SpawnTargetedHoneySpike(
                 transform.position,
                 HeroController.instance.transform.position,
-                spread);
+                spread
+                );
             }
             yield return new WaitForSeconds(0.03f);
             if (barraging)
@@ -595,7 +596,7 @@ namespace BuzzbosLair
             return spike;
         }
 
-        internal static GameObject SpawnTargetedHoneySpike(Vector3 pos, Vector3 target, float deviation)
+        internal static GameObject SpawnTargetedHoneySpike(Vector3 pos, Vector3 target, float deviation=0)
         {
             float rot = Mathf.Atan2(target.y - pos.y, target.x - pos.x) * (180 / Mathf.PI);
             rot += UnityEngine.Random.Range(-deviation, deviation);
