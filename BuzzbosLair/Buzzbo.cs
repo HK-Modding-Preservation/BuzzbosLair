@@ -365,7 +365,7 @@ namespace BuzzbosLair
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).eventMax[3] = 1;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[0] = 3;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[1] = 3;
-            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[2] = 6;
+            _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[2] = 5;
             _control.GetAction<SendRandomEventV3>("Awakened Attack Select", 1).missedMax[3] = 7;
             _control.RemoveAction("Awakened Attack Select", 0);
             #endregion
@@ -394,7 +394,7 @@ namespace BuzzbosLair
                 {
                     if (awakened) SetAwakened(false);
 
-                    if (120 + (awakening_tracker * 5) < UnityEngine.Random.Range(1, 100))
+                    if (125 + (awakening_tracker * 5) < UnityEngine.Random.Range(1, 100))
                     {
                         _control.SendEvent("AWAKEN");
                     }
@@ -470,7 +470,7 @@ namespace BuzzbosLair
             _shadow_recharge.SetActive(true);
             yield return new WaitForSeconds(shadow_recharge_time);
             SetAwakened(true);
-            awakening_tracker = UnityEngine.Random.Range(6, 9);
+            awakening_tracker = UnityEngine.Random.Range(8, 11);
 
             yield return new WaitForSeconds(1f);
 
