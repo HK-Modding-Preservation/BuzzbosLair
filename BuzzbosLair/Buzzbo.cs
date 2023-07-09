@@ -416,10 +416,21 @@ namespace BuzzbosLair
 
             _control.GetState("TeleIn 1").ChangeFsmTransition("FINISHED", "TeleIn Spikes");
 
+            _control.AddState("Dash Spikes");
+            _control.GetState("Dash Spikes").AddFsmTransition("FINISHED", "Dash");
+            _control.GetState("Dash Spikes").AddMethod(() => { StartCoroutine(DashSpikes()); });
+
             _control.GetState("Dash Antic").InsertMethod(() =>
             {
                 GetComponent<tk2dSpriteAnimator>().Library.GetClipByName("Stab Antic").fps = 15;
             }, 0);
+            _control.GetState("Dash Antic").ChangeFsmTransition("FINISHED", "Dash Spikes");
+
+            _control.AddState("Jump Spikes");
+            _control.GetState("Jump Spikes").AddFsmTransition("FINISHED", "In Air");
+            _control.GetState("Jump Spikes").AddMethod(() => { StartCoroutine(JumpSpikes()); });
+
+            _control.GetState("Jump").ChangeFsmTransition("FINISHED", "Jump Spikes");
 
         }
 
@@ -522,6 +533,41 @@ namespace BuzzbosLair
                 ReflectionHelper.SetField<HiveKnightStinger, float>(Spikes[i].GetComponent<HiveKnightStinger>(), "speed", 30f);
             }
 
+        }
+
+        IEnumerator DashSpikes()
+        {
+            bool odd = true;
+            while (_control.ActiveStateName == "Dash Spikes" || _control.ActiveStateName == "Dash")
+            {
+                for (int i = 0; i < (odd?5:4); i++)
+                {
+                    float spikeRot = 0;
+                    switch (gameObject.transform.localScale.x)
+                    {
+                        case 1: // Facing left
+                            spikeRot = (odd?(45 - i * 22.5f):(33.75f - i * 22.5f));
+                            break;
+                        case -1: // Facing right
+                            spikeRot = (odd?(135 + i * 22.5f):(146.25f + i * 22.5f));
+                            break;
+                    }
+                    GameObject spike = SpawnHoneySpike(transform.position, spikeRot);
+                    ReflectionHelper.SetField<HiveKnightStinger, float>(spike.GetComponent<HiveKnightStinger>(), "speed", 35f);
+                }
+                odd = !odd;
+                yield return new WaitForSeconds(0.04f);
+            }
+        }
+
+        IEnumerator JumpSpikes()
+        {
+            while (_control.ActiveStateName == "Jump Spikes" || _control.ActiveStateName == "In Air")
+            {
+                GameObject spike = SpawnTargetedHoneySpike(transform.position, HeroController.instance.transform.position);
+                ReflectionHelper.SetField<HiveKnightStinger, float>(spike.GetComponent<HiveKnightStinger>(), "speed", 35f);
+                yield return new WaitForSeconds(0.08f);
+            }
         }
 
         IEnumerator SSpamTimer(float t)

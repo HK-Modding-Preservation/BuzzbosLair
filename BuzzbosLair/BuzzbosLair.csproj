@@ -54,10 +54,12 @@
   <ItemGroup>
     <None Remove="Resources\BuzzboAwakened.png" />
     <None Remove="Resources\BuzzboNormal.png" />
+    <None Remove="Resources\HuskHive.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BuzzboAwakened.png" />
     <EmbeddedResource Include="Resources\BuzzboNormal.png" />
+    <EmbeddedResource Include="Resources\HuskHive.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">

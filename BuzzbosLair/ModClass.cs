@@ -21,13 +21,15 @@ namespace BuzzbosLair
             ["Gruz Mother"] = ("GG_Gruz_Mother", "_Enemies/Giant Fly"),*/
             ["Honey Spike"] = ("Hive_05", "Battle Scene/Globs/Hive Knight Glob/Stingers/Stinger"),
             ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
+            ["Husk Hive"] = ("Hive_01", "Zombie Hive"),
+            ["Ambient Bee"] = ("Hive_01", "Bee Hatchling Ambient"),
         };
 
         public TextureStrings SpriteDict { get; private set; }
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.3.3.7 : Barrage improvement";
+        public override string GetVersion() => "0.3.5.5";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -61,6 +63,7 @@ namespace BuzzbosLair
                 _gameObjects[name] = preloadedObjects[scene][path];
             }
 
+            EnemyHandler.InitEnemies();
             ModHooks.OnEnableEnemyHook += EnemyHandler.EnemyEnabled;
             ModHooks.LanguageGetHook += LanguageHandler.LanguageGet;
 

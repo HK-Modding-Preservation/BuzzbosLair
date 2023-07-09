@@ -10,6 +10,11 @@ namespace BuzzbosLair
     internal class EnemyHandler
     {
 
+        internal static void InitEnemies()
+        {
+            BuzzbosLair._gameObjects["Husk Hive"].GetComponent<tk2dSprite>().GetCurrentSpriteDef().material.mainTexture = BuzzbosLair.GetSprite(TextureStrings.HuskHive_Key).texture;
+        }
+
         internal static bool EnemyEnabled(GameObject enemy, bool isAlreadyDead)
         {
 
@@ -31,6 +36,21 @@ namespace BuzzbosLair
             if (enemy.name == "Hive Knight")
             {
                 enemy.AddComponent<Buzzbo>();
+            }
+
+            if (enemy.name.Contains("Zombie Hive"))
+            {
+                //enemy.GetComponent<tk2dSprite>().GetCurrentSpriteDef().material.mainTexture = BuzzbosLair.GetSprite(TextureStrings.HuskHive_Key).texture;
+                GameObject little_bee = GameObject.Instantiate(BuzzbosLair._gameObjects["Ambient Bee"], enemy.transform);
+                little_bee.LocateMyFSM("Bee").enabled = false;
+                little_bee.LocateMyFSM("flyer_receive_direction_msg").enabled = false;
+                GameObject.Destroy(little_bee.GetComponent<Rigidbody2D>());
+                GameObject.Destroy(little_bee.GetComponent<HealthManager>());
+                GameObject.Destroy(little_bee.GetComponent<DamageHero>());
+                GameObject.Destroy(little_bee.GetComponent<SetZ>());
+                little_bee.transform.localPosition = new Vector3(0, 0, 0.01f);
+                little_bee.SetActive(true);
+
             }
 
             return isAlreadyDead;

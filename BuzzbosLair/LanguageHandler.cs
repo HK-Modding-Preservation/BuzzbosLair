@@ -40,7 +40,7 @@ namespace BuzzbosLair
                 #endregion
                 #region Journal entries
                 case "NAME_BEE_HATCHLING":
-                    return key;
+                    return "Bullet Beel";
                 case "DESC_BEE_HATCHLING":
                     return key;
                 case "NOTE_BEE_HATCHLING":
