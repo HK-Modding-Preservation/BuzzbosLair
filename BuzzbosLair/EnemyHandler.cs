@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FriendCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,6 +49,8 @@ namespace BuzzbosLair
                 GameObject.Destroy(little_bee.GetComponent<HealthManager>());
                 GameObject.Destroy(little_bee.GetComponent<DamageHero>());
                 GameObject.Destroy(little_bee.GetComponent<SetZ>());
+                GameObject.Destroy(little_bee.GetComponent<BoxCollider2D>());
+                GameObject.Destroy(little_bee.GetComponent<Recoil>());
                 little_bee.transform.localPosition = new Vector3(0, 0, 0.01f);
                 little_bee.SetActive(true);
 

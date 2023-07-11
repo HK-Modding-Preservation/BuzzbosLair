@@ -10,6 +10,7 @@ namespace BuzzbosLair
 
         private AlterHealthManager alter_hm;
         private AlterInfectedEnemyEffects alter_blood;
+        private AlterEnemyDreamnailReaction alter_dnail_reaction;
 
         private PlayMakerFSM _fsm;
 
@@ -19,6 +20,7 @@ namespace BuzzbosLair
 
             alter_hm = gameObject.AddComponent<AlterHealthManager>();
             alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
+            alter_dnail_reaction = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
         }
 
         void Start()
@@ -29,6 +31,7 @@ namespace BuzzbosLair
             alter_hm.SetRegen(0.25f, 0.1f, 1);
             alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
             alter_blood.SetColor(Presets.Colors.hiveblood);
+            alter_dnail_reaction.SetNoSoul();
 
             if (gameObject.name.Contains("Bee Hatchling Ambient"))
             {
