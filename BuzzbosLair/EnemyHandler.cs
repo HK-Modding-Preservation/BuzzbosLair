@@ -51,6 +51,7 @@ namespace BuzzbosLair
                 GameObject.Destroy(little_bee.GetComponent<SetZ>());
                 GameObject.Destroy(little_bee.GetComponent<BoxCollider2D>());
                 GameObject.Destroy(little_bee.GetComponent<Recoil>());
+                GameObject.Destroy(little_bee.GetComponent<EnemyDreamnailReaction>());
                 little_bee.transform.localPosition = new Vector3(0, 0, 0.01f);
                 little_bee.SetActive(true);
 
