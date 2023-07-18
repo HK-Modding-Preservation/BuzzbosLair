@@ -434,6 +434,37 @@ namespace BuzzbosLair
 
             _control.GetState("Jump").ChangeFsmTransition("FINISHED", "Jump Spikes");
 
+            _control.GetState("Glob Antic 2").AddMethod(() =>
+            {
+                int count = 20;
+                float rot_offset = UnityEngine.Random.Range(0, 360);
+                for (int i = 0; i < count; i++)
+                {
+                    SpawnHoneySpike(gameObject.Find("Stinger Flash").transform.position, (360/count * i) + rot_offset);
+                }
+            });
+            _control.GetState("Glob Strike").ChangeFsmTransition("FINISHED", "Jump Antic");
+            _control.GetState("Glob Strike").RemoveAction(3);
+            _control.GetState("Glob Strike").AddMethod(() =>
+            {
+                Vector3 pos = transform.position;
+
+                bool[] facingRightBools = { false, true };
+                foreach (bool @bool in facingRightBools)
+                {
+                    GameObject shockwave = Instantiate(BuzzbosLair._gameObjects["Grey Prince Zote"].LocateMyFSM("Control").GetAction<SpawnObjectFromGlobalPool>("Land Waves", 0).gameObject.Value);
+                    PlayMakerFSM shockFSM = shockwave.LocateMyFSM("shockwave");
+                    shockFSM.transform.localScale = new Vector2(1.2f, 1f);
+                    shockFSM.FsmVariables.FindFsmBool("Facing Right").Value = @bool;
+                    shockFSM.FsmVariables.FindFsmFloat("Speed").Value = 20f;
+                    shockwave.AddComponent<DamageHero>().damageDealt = 1;
+
+                    shockwave.SetActive(true);
+                    shockwave.transform.SetPosition2D(new Vector2(pos.x, pos.y - 2.8f));
+                }
+
+            });
+
         }
 
         public void SetAwakened(bool toAwakened)

@@ -23,13 +23,14 @@ namespace BuzzbosLair
             ["Spiny Husk"] = ("Fungus3_34", "Garden Zombie"),
             ["Husk Hive"] = ("Hive_01", "Zombie Hive"),
             ["Ambient Bee"] = ("Hive_01", "Bee Hatchling Ambient"),
+            ["Grey Prince Zote"] = ("GG_Grey_Prince_Zote", "Grey Prince"),
         };
 
         public TextureStrings SpriteDict { get; private set; }
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.3.6.11";
+        public override string GetVersion() => "0.3.7.10";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
