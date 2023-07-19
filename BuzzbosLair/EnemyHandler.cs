@@ -36,7 +36,8 @@ namespace BuzzbosLair
 
             if (enemy.name == "Hive Knight")
             {
-                enemy.AddComponent<Buzzbo>();
+                if (enemy.GetComponent<Buzzbo>() == null)
+                    enemy.AddComponent<Buzzbo>();
             }
 
             if (enemy.name.Contains("Zombie Hive"))
