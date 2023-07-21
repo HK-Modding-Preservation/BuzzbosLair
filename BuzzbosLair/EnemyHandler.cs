@@ -21,17 +21,20 @@ namespace BuzzbosLair
 
             if (enemy.name.Contains("Big Bee"))
             {
-                enemy.AddComponent<Kamikabee>();
+                if (enemy.GetComponent<Kamikabee>() == null)
+                    enemy.AddComponent<Kamikabee>();
             }
 
             if (enemy.name.Contains("Bee Stinger"))
             {
-                enemy.AddComponent<Railgun>();
+                if (enemy.GetComponent<Railgun>() == null) 
+                    enemy.AddComponent<Railgun>();
             }
 
             if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Hiveling Spawner"))
             {
-                enemy.AddComponent<SmallBee>();
+                if (enemy.GetComponent<SmallBee>() == null) 
+                    enemy.AddComponent<SmallBee>();
             }
 
             if (enemy.name == "Hive Knight")
