@@ -9,6 +9,7 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
 
+        private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
 
@@ -16,12 +17,14 @@ namespace BuzzbosLair
         {
             _control = gameObject.LocateMyFSM("Big Bee");
 
+            _hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
         }
 
         void Start()
         {
+
             //_control.GetAction<SetIntValue>("Charge Antic", 0).intValue = 100;
 
             _control.GetState("Hit Vertical").AddMethod(() => {
@@ -65,6 +68,8 @@ namespace BuzzbosLair
             _control.GetAction<FloatCompare>("Check Dir", 6).tolerance = 0.5f;
             _control.GetAction<FloatCompare>("Check Dir", 7).tolerance = 0.5f;*/
 
+            _hm.hp += 70;
+            _alter_hm.SetMaxHp(_hm.hp);
             _alter_hm.SetRegen(1f, 1f, 5);
             _alter_blood.SetColor(Presets.Colors.hiveblood);
         }

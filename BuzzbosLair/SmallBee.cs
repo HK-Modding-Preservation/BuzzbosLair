@@ -8,6 +8,7 @@ namespace BuzzbosLair
     internal class SmallBee : MonoBehaviour
     {
 
+        private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
         private AlterEnemyDreamnailReaction _alter_dnail_reaction;
@@ -18,6 +19,7 @@ namespace BuzzbosLair
         {
             gameObject.GetComponent<Recoil>().enabled = false;
 
+            _hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
             _alter_dnail_reaction = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
@@ -28,7 +30,9 @@ namespace BuzzbosLair
             //GameObject _corpse = gameObject.Find("Corpse Minimal(Clone)");
             //Destroy(_corpse.Find("Pt Death"));
 
-            _alter_hm.SetRegen(0.25f, 0.1f, 1);
+            _hm.hp = PlayerData.instance.nailDamage + 1;
+            _alter_hm.SetMaxHp(_hm.hp);
+            _alter_hm.SetRegen(0, 0.1f, 1);
             _alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
             _alter_blood.SetColor(Presets.Colors.hiveblood);
             _alter_dnail_reaction.SetNoSoul();
