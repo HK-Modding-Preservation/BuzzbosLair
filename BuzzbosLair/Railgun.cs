@@ -34,6 +34,9 @@ namespace BuzzbosLair
         void Start()
         {
             _hm.hp *= 2;
+            _hm.SetGeoSmall(0);
+            _hm.SetGeoMedium(0);
+            _hm.SetGeoLarge(0);
             _alter_hm.SetMaxHp(_hm.hp);
             _alter_hm.SetRegen(0.5f, 0.25f, 1);
             _alter_blood.SetColor(Presets.Colors.hiveblood);

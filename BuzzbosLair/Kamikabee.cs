@@ -69,6 +69,9 @@ namespace BuzzbosLair
             _control.GetAction<FloatCompare>("Check Dir", 7).tolerance = 0.5f;*/
 
             _hm.hp += 70;
+            _hm.SetGeoSmall(0);
+            _hm.SetGeoMedium(0);
+            _hm.SetGeoLarge(0);
             _alter_hm.SetMaxHp(_hm.hp);
             _alter_hm.SetRegen(1f, 1f, 5);
             _alter_blood.SetColor(Presets.Colors.hiveblood);

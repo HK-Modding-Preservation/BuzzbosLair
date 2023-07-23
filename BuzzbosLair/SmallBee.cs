@@ -30,9 +30,10 @@ namespace BuzzbosLair
             //GameObject _corpse = gameObject.Find("Corpse Minimal(Clone)");
             //Destroy(_corpse.Find("Pt Death"));
 
-            _hm.hp = PlayerData.instance.nailDamage + 1;
+            int naildmg = HeroController.instance.gameObject.transform.Find("Attacks/Slash").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("damageDealt").Value;
+            _hm.hp = 2 * naildmg;
             _alter_hm.SetMaxHp(_hm.hp);
-            _alter_hm.SetRegen(0, 0.1f, 1);
+            _alter_hm.SetRegen(0.25f, 0.1f, 1);
             _alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
             _alter_blood.SetColor(Presets.Colors.hiveblood);
             _alter_dnail_reaction.SetNoSoul();
