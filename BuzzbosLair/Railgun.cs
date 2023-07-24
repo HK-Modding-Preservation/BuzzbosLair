@@ -44,8 +44,10 @@ namespace BuzzbosLair
             _control.GetAction<SetVelocityAsAngle>("Zing", 3).speed = 30f;
             _control.GetAction<ChaseObjectV2>("Zing", 5).accelerationForce = 100f;
 
+            _control.CopyFsmState("Hit", "Firing End");
+
             _control.AddFsmState("Firing");
-            _control.AddFsmTransition("Firing", "FINISHED", "Hit");
+            _control.AddFsmTransition("Firing", "FINISHED", "Firing End");
             _control.InsertMethod("Firing", () =>
             {
                 StartCoroutine(RapidFire());
@@ -69,12 +71,15 @@ namespace BuzzbosLair
             _control.GetAction<RandomFloat>("Pointing", 3).min = 2f;
             _control.GetAction<RandomFloat>("Pointing", 3).max = 10f;
             _control.GetAction<DistanceFly>("Pointing", 4).distance = 16;
-            
+
+            _control.GetAction<WaitRandom>("Hit", 8).timeMin = 0.2f;
+            _control.GetAction<WaitRandom>("Hit", 8).timeMax = 0.3f;
+
         }
 
         IEnumerator RapidFire()
         {
-            while (_control.ActiveStateName == "Firing" || _control.ActiveStateName == "Hit")
+            while (_control.ActiveStateName == "Firing" || _control.ActiveStateName == "Firing End")
             {
                 yield return new WaitForSeconds(0.05f);
                 float rot = transform.rotation.eulerAngles.z;
@@ -97,7 +102,7 @@ namespace BuzzbosLair
 
         IEnumerator SteadyAim()
         {
-            while (_control.ActiveStateName == "Firing" || _control.ActiveStateName == "Hit")
+            while (_control.ActiveStateName == "Firing" || _control.ActiveStateName == "Firing End")
             {
                 yield return new WaitForSeconds(0.04f);
                 float currentAngle = transform.rotation.eulerAngles.z;

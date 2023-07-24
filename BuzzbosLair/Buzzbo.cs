@@ -85,7 +85,6 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
-
             #region Roar stun
             // Stun the Knight during intro roar
             _control.InsertAction("Intro", new SendEventByName()
@@ -123,7 +122,6 @@ namespace BuzzbosLair
                 everyFrame = false
             }, 1);
             #endregion Roar stun
-
 
             #region Awakened attack states
 
@@ -269,9 +267,6 @@ namespace BuzzbosLair
 
             #endregion
 
-                #region ??? Scream-Jump Chain (JChain)
-            #endregion
-
                 #region Barrage-Slash (Barrage)
             _control.CopyState("TeleOut 1", "Barrage Init");
             _control.CopyState("TeleOut 2", "Barrage Out");
@@ -410,14 +405,17 @@ namespace BuzzbosLair
             _control.GetState("Awaken").AddMethod(() => { StartCoroutine(AwakeningSequence()); });
             #endregion
 
+            #region Regular attack edits
 
-            // reg attacks
+                #region Teleport spikes
             _control.AddState("TeleIn Spikes");
             _control.GetState("TeleIn Spikes").AddFsmTransition("FINISHED", "TeleIn 2");
             _control.GetState("TeleIn Spikes").AddMethod(() => { StartCoroutine(TeleportSpikes()); });
 
             _control.GetState("TeleIn 1").ChangeFsmTransition("FINISHED", "TeleIn Spikes");
+            #endregion
 
+                #region Dash Spikes
             _control.AddState("Dash Spikes");
             _control.GetState("Dash Spikes").AddFsmTransition("FINISHED", "Dash");
             _control.GetState("Dash Spikes").AddMethod(() => { StartCoroutine(DashSpikes()); });
@@ -427,13 +425,17 @@ namespace BuzzbosLair
                 GetComponent<tk2dSpriteAnimator>().Library.GetClipByName("Stab Antic").fps = 15;
             }, 0);
             _control.GetState("Dash Antic").ChangeFsmTransition("FINISHED", "Dash Spikes");
+            #endregion
 
+                #region Jump Spikes
             _control.AddState("Jump Spikes");
             _control.GetState("Jump Spikes").AddFsmTransition("FINISHED", "In Air");
             _control.GetState("Jump Spikes").AddMethod(() => { StartCoroutine(JumpSpikes()); });
 
             _control.GetState("Jump").ChangeFsmTransition("FINISHED", "Jump Spikes");
+            #endregion
 
+                #region Floor Strike
             _control.GetState("Glob Antic 2").AddMethod(() =>
             {
                 int count = 20;
@@ -464,6 +466,9 @@ namespace BuzzbosLair
                 }
 
             });
+            #endregion
+
+            #endregion
 
         }
 
