@@ -26,6 +26,7 @@ namespace BuzzbosLair
         private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
+        private AlterEnemyDreamnailReaction _alter_dnail_reaction;
 
         private Recoil _recoil;
         private tk2dSpriteAnimator _anim;
@@ -45,6 +46,7 @@ namespace BuzzbosLair
             _hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
+            _alter_dnail_reaction = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
 
             _recoil = gameObject.GetComponent<Recoil>();
             _anim = gameObject.GetComponent<tk2dSpriteAnimator>();
@@ -75,6 +77,9 @@ namespace BuzzbosLair
             _hm.hp = (_hm.hp / 2) * 3 + 200;
             _alter_hm.SetMaxHp(_hm.hp);
             _alter_hm.SetRegen(0.5f, 0.1f, 1);
+
+            if (gameObject.scene.name == "GG_Hive_Knight")
+                _alter_dnail_reaction.SetConvoTitle("BUZZBO_GG");
 
             _recoil.enabled = false;
 
@@ -500,7 +505,6 @@ namespace BuzzbosLair
 
         }
 
-
         #region Coroutines
 
         IEnumerator AwakeningSequence()
@@ -694,6 +698,12 @@ namespace BuzzbosLair
             Stab,
             Slash1,
             Slash2,
+        }
+
+
+        public void OnDestory()
+        {
+            SetAwakened(false);
         }
     }
 }

@@ -37,6 +37,18 @@ namespace BuzzbosLair
                     return key;
                 #endregion
                 #region In-combat Dream Nail messages
+                case "HIVE_KNIGHT_1":
+                    return "Are you watching, Fonsi?";
+                case "HIVE_KNIGHT_2":
+                    return "Have faith in me, Luis!";
+                case "HIVE_KNIGHT_3":
+                    return "oof";
+                case "BUZZBO_GG_1":
+                    return "You slaughtered my people...and me.";
+                case "BUZZBO_GG_2":
+                    return "We were meant to be eternal! We perfected life! How did we die?";
+                case "BUZZBO_GG_3":
+                    return "I'll end you like you ended our H.I.V.E!";
                 #endregion
                 #region Journal entries
                 case "NAME_BEE_HATCHLING":
