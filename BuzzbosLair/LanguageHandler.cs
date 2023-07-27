@@ -54,9 +54,9 @@ namespace BuzzbosLair
                 case "NAME_BEE_HATCHLING":
                     return "Bullet Beel";
                 case "DESC_BEE_HATCHLING":
-                    return key;
+                    return "Recently born, this creature has ungodly amounts of Windex coursing through its veins.";
                 case "NOTE_BEE_HATCHLING":
-                    return key;
+                    return "As they grow older, their natural Honey Ichor dilutes the Windex in their bodies; as newborn, however, they are blue bullets of fury.";
 
                 case "NAME_BEE":
                     return "Orbeetal Railgun";

@@ -35,7 +35,7 @@ namespace BuzzbosLair
             _alter_hm.SetMaxHp(_hm.hp);
             _alter_hm.SetRegen(0.25f, 0.1f, 1);
             _alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
-            _alter_blood.SetColor(Presets.Colors.hiveblood);
+            _alter_blood.SetColor(Presets.Colors.lifeblood);
             _alter_dnail_reaction.SetNoSoul();
 
             if (gameObject.name.Contains("Bee Hatchling Ambient"))
