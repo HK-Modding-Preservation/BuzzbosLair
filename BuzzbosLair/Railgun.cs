@@ -11,7 +11,7 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
 
-        private HealthManager _hm;
+        //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
 
@@ -21,7 +21,7 @@ namespace BuzzbosLair
         {
             _control = gameObject.LocateMyFSM("Bee Stinger");
 
-            _hm = gameObject.GetComponent<HealthManager>();
+            //_hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
 
@@ -33,11 +33,9 @@ namespace BuzzbosLair
 
         void Start()
         {
-            _hm.hp *= 2;
-            _hm.SetGeoSmall(0);
-            _hm.SetGeoMedium(0);
-            _hm.SetGeoLarge(0);
-            _alter_hm.SetMaxHp(_hm.hp);
+            _alter_hm.hp *= 2;
+            _alter_hm.SetGeo(0,0,0);
+            _alter_hm.maxHp = _alter_hm.hp;
             _alter_hm.SetRegen(0.5f, 0.25f, 1);
             _alter_blood.SetColor(Presets.Colors.hiveblood);
 

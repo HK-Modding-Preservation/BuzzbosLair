@@ -8,7 +8,7 @@ namespace BuzzbosLair
     internal class SmallBee : MonoBehaviour
     {
 
-        private HealthManager _hm;
+        //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
         private AlterEnemyDreamnailReaction _alter_dnail_reaction;
@@ -19,7 +19,7 @@ namespace BuzzbosLair
         {
             gameObject.GetComponent<Recoil>().enabled = false;
 
-            _hm = gameObject.GetComponent<HealthManager>();
+            //_hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
             _alter_dnail_reaction = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
@@ -31,9 +31,9 @@ namespace BuzzbosLair
             //Destroy(_corpse.Find("Pt Death"));
 
             int naildmg = HeroController.instance.gameObject.transform.Find("Attacks/Slash").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("damageDealt").Value;
-            _hm.hp = 2 * naildmg;
-            _alter_hm.SetMaxHp(_hm.hp);
-            _alter_hm.SetRegen(0.25f, 0.1f, 1);
+            _alter_hm.hp = 2 * naildmg;
+            _alter_hm.maxHp = _alter_hm.hp;
+            _alter_hm.SetRegen(0.4f, 0.1f, 1);
             _alter_hm.SetEnemyType((int)EnemyDeathTypes.Shade);
             _alter_blood.SetColor(Presets.Colors.lifeblood);
             _alter_dnail_reaction.SetNoSoul();

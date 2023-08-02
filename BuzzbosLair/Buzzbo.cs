@@ -23,7 +23,7 @@ namespace BuzzbosLair
         private bool spike_spamming = false;
         private bool barraging = false;
 
-        private HealthManager _hm;
+        //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
         private AlterEnemyDreamnailReaction _alter_dnail_reaction;
@@ -43,7 +43,7 @@ namespace BuzzbosLair
 
         void Awake()
         {
-            _hm = gameObject.GetComponent<HealthManager>();
+            //_hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
             _alter_dnail_reaction = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
@@ -74,8 +74,8 @@ namespace BuzzbosLair
 
             SetAwakened(false);
 
-            _hm.hp = (_hm.hp / 2) * 3 + 200;
-            _alter_hm.SetMaxHp(_hm.hp);
+            _alter_hm.hp = (_alter_hm.hp / 2) * 3 + 200;//_hm.hp = (_hm.hp / 2) * 3 + 200;
+            _alter_hm.maxHp = _alter_hm.hp; // _alter_hm.SetMaxHp(_hm.hp);
             _alter_hm.SetRegen(0.5f, 0.1f, 1);
 
             if (gameObject.scene.name == "GG_Hive_Knight")
@@ -701,7 +701,7 @@ namespace BuzzbosLair
         }
 
 
-        public void OnDestory()
+        void OnDestroy()
         {
             SetAwakened(false);
         }
