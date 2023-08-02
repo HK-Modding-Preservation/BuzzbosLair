@@ -32,9 +32,9 @@ namespace BuzzbosLair
                 case "NAME_HIVE_KNIGHT":
                     return "Buzzbo";
                 case "DESC_HIVE_KNIGHT":
-                    return key;
+                    return "Interim leader of the H.I.V.E. Experiments on himself more than on his test subjects.";
                 case "NOTE_HIVE_KNIGHT":
-                    return key;
+                    return "To modify one's body to such a degree...it is an unsettling thought, but this creature's determination to 'reach eternity' is praiseworthy.";
                 #endregion
                 #region In-combat Dream Nail messages
                 case "HIVE_KNIGHT_1":
@@ -61,23 +61,23 @@ namespace BuzzbosLair
                 case "NAME_BEE":
                     return "Orbeetal Railgun";
                 case "DESC_BEE":
-                    return key;
+                    return "A creature that regenerates its spines even as it fires them out from its body.";
                 case "NOTE_BEE":
-                    return key;
+                    return "Honey Ichor...such a marvelous substance.";
 
                 case "NAME_BIG_BEE":
                     return "Kamikabee";
                 case "DESC_BIG_BEE":
-                    return key;
+                    return "A titanic mass of destructive force, this creature cares not for the wreckage it leaves behind in its own facility.";
                 case "NOTE_BIG_BEE":
-                    return key;
+                    return "Though their Honey Ichor gave them long-term regenerative abilities, the creatures of the H.I.V.E experimented with Windex, and enahnced their constitution tenfold. I wonder if it would have worked for me?";
 
                 case "NAME_ZOM_HIVE":
                     return key;
                 case "DESC_ZOM_HIVE":
-                    return key;
+                    return "An cloner-incubator, filled with Windex.";
                 case "NOTE_ZOM_HIVE":
-                    return key;
+                    return "The creatures of the H.I.V.E had a fierce obsession with 'perfecting life', and 'achieving eternity'. It is fascinating how far it took their sciences.";
 
                 #endregion
                 #region Queen
