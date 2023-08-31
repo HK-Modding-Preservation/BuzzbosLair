@@ -1,10 +1,12 @@
 ﻿using Modding;
+using SFCore.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UObject = UnityEngine.Object;
+using USceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace BuzzbosLair
 {
@@ -30,7 +32,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.3.10.0";
+        public override string GetVersion() => "0.4.0.0";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -67,9 +69,22 @@ namespace BuzzbosLair
             EnemyHandler.InitEnemies();
             ModHooks.OnEnableEnemyHook += EnemyHandler.EnemyEnabled;
             ModHooks.LanguageGetHook += LanguageHandler.LanguageGet;
+            USceneManager.activeSceneChanged += SceneChanged;
 
             Log("Initialized");
         }
 
+        private void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
+        {
+            switch(arg1.name)
+            {
+                case "Hive_05":
+                    GameObject _battleScene = arg1.Find("Battle Scene");
+                    PlayMakerFSM _battleSceneControl = _battleScene.LocateMyFSM("Control");
+
+                    _battleSceneControl.ChangeFsmTransition("Start Pause", "FINISHED", "Hive Knight");
+                    break;
+            }
+        }
     }
 }
