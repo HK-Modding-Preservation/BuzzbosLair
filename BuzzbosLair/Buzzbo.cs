@@ -58,8 +58,8 @@ namespace BuzzbosLair
                 { Damagers.Slash1, transform.Find("Slash 1").gameObject },
                 { Damagers.Slash2, transform.Find("Slash 2").gameObject },
             };
-            _shadow_recharge = Instantiate(HeroController.instance.gameObject.transform.Find("Effects/Shadow Recharge").gameObject, this.gameObject.transform);
             
+            _shadow_recharge = Instantiate(HeroController.instance.gameObject.transform.Find("Effects/Shadow Recharge").gameObject, this.gameObject.transform);
             _shadow_recharge.transform.localScale *= 3;
             _shadow_recharge.LocateMyFSM("Recharge Effect").FsmVariables.GetFsmFloat("Shadow Recharge Time").Value = shadow_recharge_time;
 
@@ -418,7 +418,7 @@ namespace BuzzbosLair
             _control.GetState("TeleIn Spikes").AddMethod(() => { StartCoroutine(TeleportSpikes()); });
 
             _control.GetState("TeleIn 1").ChangeFsmTransition("FINISHED", "TeleIn Spikes");
-            #endregion
+                #endregion
 
                 #region Dash Spikes
             _control.AddState("Dash Spikes");
@@ -430,7 +430,7 @@ namespace BuzzbosLair
                 GetComponent<tk2dSpriteAnimator>().Library.GetClipByName("Stab Antic").fps = 15;
             }, 0);
             _control.GetState("Dash Antic").ChangeFsmTransition("FINISHED", "Dash Spikes");
-            #endregion
+                #endregion
 
                 #region Jump Spikes
             _control.AddState("Jump Spikes");
@@ -438,7 +438,7 @@ namespace BuzzbosLair
             _control.GetState("Jump Spikes").AddMethod(() => { StartCoroutine(JumpSpikes()); });
 
             _control.GetState("Jump").ChangeFsmTransition("FINISHED", "Jump Spikes");
-            #endregion
+                #endregion
 
                 #region Floor Strike
             _control.GetState("Glob Antic 2").AddMethod(() =>
@@ -474,6 +474,10 @@ namespace BuzzbosLair
             #endregion
 
             #endregion
+
+            _control.FsmVariables.FindFsmFloat("Idle Time").Value = 0.25f;
+            _control.RemoveAction("Phase 2", 0);
+            _control.ChangeFsmTransition("Phase 3", "BEE ROAR", "Phase 2");
 
         }
 
