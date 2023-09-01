@@ -90,6 +90,15 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
+            _control.GetState("Fall").InsertMethod(() =>
+            {
+                if (HeroController.instance.transform.position.x > 68.95f)
+                {
+                    transform.SetPositionX(63f);
+                    transform.localScale = new Vector3(-1f, 1);
+                }
+            }, 0);
+
             #region Roar stun
             // Stun the Knight during intro roar
             _control.InsertAction("Intro", new SendEventByName()
