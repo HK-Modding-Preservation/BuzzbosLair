@@ -33,6 +33,7 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
         private PlayMakerFSM _stun_control;
+        private PlayMakerFSM _corpse;
 
         private Dictionary<Damagers, GameObject> _damagers;
         private GameObject _roar_emitter;
@@ -66,6 +67,7 @@ namespace BuzzbosLair
 
             _control = gameObject.LocateMyFSM("Control");
             _stun_control = gameObject.LocateMyFSM("Stun Control");
+            _corpse = gameObject.Find("Corpse Hive Knight(Clone)").LocateMyFSM("corpse");
 
         }
 
@@ -84,12 +86,17 @@ namespace BuzzbosLair
             _recoil.enabled = false;
 
             InitFSM();
+
+            _corpse.ChangeFsmTransition("Pause", "FINISHED", "Appear Pause");
+            Destroy(gameObject.GetComponent<EnemyDeathEffects>());
+            gameObject.AddComponent<EnemyDeathEffectsNoEffect>();
         }
 
         private void InitFSM() {
 
             _stun_control.enabled = false;
 
+            #region Intro
             _control.GetState("Fall").InsertMethod(() =>
             {
                 if (HeroController.instance.transform.position.x > 68.95f)
@@ -99,8 +106,6 @@ namespace BuzzbosLair
                 }
             }, 0);
 
-            #region Roar stun
-            // Stun the Knight during intro roar
             _control.InsertAction("Intro", new SendEventByName()
             {
                 eventTarget = new FsmEventTarget()
