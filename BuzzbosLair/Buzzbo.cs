@@ -40,7 +40,10 @@ namespace BuzzbosLair
         private GameObject _shadow_recharge;
 
         private static float shadow_recharge_time = 1f;
-        
+
+        private bool _hueshifter_exists = (ModHooks.GetMod("HueShifter") != null);
+        private Dictionary<string, float> _hueshifter_prev_settings = new Dictionary<string, float>();
+
 
         void Awake()
         {
@@ -68,6 +71,11 @@ namespace BuzzbosLair
             _control = gameObject.LocateMyFSM("Control");
             _stun_control = gameObject.LocateMyFSM("Stun Control");
             _corpse = gameObject.Find("Corpse Hive Knight(Clone)").LocateMyFSM("corpse");
+
+            if (_hueshifter_exists)
+            {
+                HueShifter_RecordSettings();
+            }
 
         }
 
@@ -519,6 +527,11 @@ namespace BuzzbosLair
                 _alter_blood.SetColor(Presets.Colors.hiveblood);
             }
 
+            if (_hueshifter_exists)
+            {
+                HueShifter_AwakenToggle(toAwakened);
+            }
+
             awakened = toAwakened;
 
         }
@@ -718,10 +731,61 @@ namespace BuzzbosLair
             Slash2,
         }
 
+        
+        private void HueShifter_RecordSettings ()
+        {
+            var current_settings = HueShifter.HueShifter.Instance.GS;
+            _hueshifter_prev_settings.Add("Phase", current_settings.Phase);
+            _hueshifter_prev_settings.Add("RandomPhase",
+                current_settings.RandomPhase == HueShifter.RandomPhaseSetting.Fixed ? 0f : (
+                current_settings.RandomPhase == HueShifter.RandomPhaseSetting.RandomPerMapArea ? 1f : 2f
+                ));
+            _hueshifter_prev_settings.Add("ShiftLighting", current_settings.ShiftLighting ? 1f : 0f);
+            _hueshifter_prev_settings.Add("RespectLighting", current_settings.RespectLighting ? 1f : 0f);
+            _hueshifter_prev_settings.Add("XFrequency", current_settings.XFrequency);
+            _hueshifter_prev_settings.Add("YFrequency", current_settings.YFrequency);
+            _hueshifter_prev_settings.Add("ZFrequency", current_settings.ZFrequency);
+            _hueshifter_prev_settings.Add("TimeFrequency", current_settings.TimeFrequency);
+            _hueshifter_prev_settings.Add("AllowVanillaPhase", current_settings.AllowVanillaPhase ? 1f : 0f);
+        }
+
+        private void HueShifter_AwakenToggle (bool awakened)
+        {
+            HueShifter.HueShifter _hs = HueShifter.HueShifter.Instance;
+            _hs.GS.RandomPhase = HueShifter.RandomPhaseSetting.Fixed;
+            _hs.GS.Phase = (awakened ? 180 : 0);
+            _hs.GS.ShiftLighting = true;
+            _hs.GS.RespectLighting = true;
+            _hs.GS.XFrequency = 0;
+            _hs.GS.YFrequency = 0;
+            _hs.GS.ZFrequency = 0;
+            _hs.GS.TimeFrequency = 0;
+            ReflectionHelper.CallMethod(_hs, "SetAllTheShaders");
+        }
+
+        private void HueShifter_ResetSettings ()
+        {
+            HueShifter.HueShifter _hs = HueShifter.HueShifter.Instance;
+            _hs.GS.RandomPhase = (_hueshifter_prev_settings["RandomPhase"] == 0 ? HueShifter.RandomPhaseSetting.Fixed:(
+                _hueshifter_prev_settings["RandomPhase"] == 1f ? HueShifter.RandomPhaseSetting.RandomPerMapArea : HueShifter.RandomPhaseSetting.RandomPerRoom)) ;
+            _hs.GS.Phase = _hueshifter_prev_settings["Phase"];
+            _hs.GS.ShiftLighting = _hueshifter_prev_settings["ShiftLighting"] == 1f;
+            _hs.GS.RespectLighting = _hueshifter_prev_settings["RespectLighting"] == 1f;
+            _hs.GS.XFrequency = _hueshifter_prev_settings["XFrequency"];
+            _hs.GS.YFrequency = _hueshifter_prev_settings["YFrequency"];
+            _hs.GS.ZFrequency = _hueshifter_prev_settings["ZFrequency"];
+            _hs.GS.TimeFrequency = _hueshifter_prev_settings["TimeFrequency"];
+        }
 
         void OnDestroy()
         {
             SetAwakened(false);
+
+            if (_hueshifter_exists)
+            {
+                HueShifter_ResetSettings();
+            }
+
         }
     }
 }
