@@ -98,6 +98,7 @@ namespace BuzzbosLair
 
             _stun_control.enabled = false;
 
+            #region Intro
             _control.GetState("Fall").InsertMethod(() =>
             {
                 if (HeroController.instance.transform.position.x > 68.95f)
@@ -107,7 +108,6 @@ namespace BuzzbosLair
                 }
             }, 0);
 
-            #region Roar stun
             // Stun the Knight during intro roar
             _control.InsertAction("Intro", new SendEventByName()
             {
@@ -143,7 +143,7 @@ namespace BuzzbosLair
                 delay = 0f,
                 everyFrame = false
             }, 1);
-            #endregion Roar stun
+            #endregion Intro
 
             #region Awakened attack states
 
@@ -726,7 +726,7 @@ namespace BuzzbosLair
             Slash2,
         }
 
-        
+        #region HueShifter integration
         private void HueShifter_RecordSettings ()
         {
             var current_settings = HueShifter.HueShifter.Instance.GS;
@@ -771,6 +771,7 @@ namespace BuzzbosLair
             _hs.GS.ZFrequency = _hueshifter_prev_settings["ZFrequency"];
             _hs.GS.TimeFrequency = _hueshifter_prev_settings["TimeFrequency"];
         }
+        #endregion
 
         void OnDestroy()
         {

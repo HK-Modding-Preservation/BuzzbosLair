@@ -1,4 +1,5 @@
 ﻿using FriendCore;
+using Modding.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,44 +22,27 @@ namespace BuzzbosLair
 
             if (enemy.name.Contains("Big Bee"))
             {
-                if (enemy.GetComponent<Kamikabee>() == null)
-                    enemy.AddComponent<Kamikabee>();
+                enemy.GetOrAddComponent<Kamikabee>();
             }
 
             if (enemy.name.Contains("Bee Stinger"))
             {
-                if (enemy.GetComponent<Railgun>() == null) 
-                    enemy.AddComponent<Railgun>();
+                enemy.GetOrAddComponent<Railgun>();
             }
 
             if (enemy.name.Contains("Bee Hatchling Ambient") || enemy.name.Contains("Hiveling Spawner"))
             {
-                if (enemy.GetComponent<SmallBee>() == null) 
-                    enemy.AddComponent<SmallBee>();
+                enemy.GetOrAddComponent<SmallBee>();
             }
 
             if (enemy.name == "Hive Knight")
             {
-                if (enemy.GetComponent<Buzzbo>() == null)
-                    enemy.AddComponent<Buzzbo>();
+                enemy.GetOrAddComponent<Buzzbo>();
             }
 
             if (enemy.name.Contains("Zombie Hive"))
             {
-                //enemy.GetComponent<tk2dSprite>().GetCurrentSpriteDef().material.mainTexture = BuzzbosLair.GetSprite(TextureStrings.HuskHive_Key).texture;
-                GameObject little_bee = GameObject.Instantiate(BuzzbosLair._gameObjects["Ambient Bee"], enemy.transform);
-                little_bee.LocateMyFSM("Bee").enabled = false;
-                little_bee.LocateMyFSM("flyer_receive_direction_msg").enabled = false;
-                GameObject.Destroy(little_bee.GetComponent<Rigidbody2D>());
-                GameObject.Destroy(little_bee.GetComponent<HealthManager>());
-                GameObject.Destroy(little_bee.GetComponent<DamageHero>());
-                GameObject.Destroy(little_bee.GetComponent<SetZ>());
-                GameObject.Destroy(little_bee.GetComponent<BoxCollider2D>());
-                GameObject.Destroy(little_bee.GetComponent<Recoil>());
-                GameObject.Destroy(little_bee.GetComponent<EnemyDreamnailReaction>());
-                little_bee.transform.localPosition = new Vector3(0, 0, 0.01f);
-                little_bee.SetActive(true);
-
+                enemy.GetOrAddComponent<WindexPod>();
             }
 
             return isAlreadyDead;
