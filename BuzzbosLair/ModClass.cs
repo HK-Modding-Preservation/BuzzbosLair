@@ -1,7 +1,6 @@
 ﻿using Modding;
 using SFCore.Utils;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace BuzzbosLair
 
         public static readonly Dictionary<string, GameObject> _gameObjects = new();
 
-        private Dictionary<string, ValueTuple<string, string>> _preloads = new()
+        private readonly Dictionary<string, ValueTuple<string, string>> _preloads = new()
         {
             /*["Soul Warrior"] = ("GG_Mage_Knight", "Mage Knight"),
             ["Mantis Lord"] = ("Fungus2_15_boss", "Mantis Battle/Battle Main/Mantis Lord"),

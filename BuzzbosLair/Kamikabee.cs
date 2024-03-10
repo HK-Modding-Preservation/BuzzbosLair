@@ -9,7 +9,6 @@ namespace BuzzbosLair
 
         private PlayMakerFSM _control;
 
-        //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
 
@@ -17,15 +16,12 @@ namespace BuzzbosLair
         {
             _control = gameObject.LocateMyFSM("Big Bee");
 
-            //_hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
         }
 
         void Start()
         {
-
-            //_control.GetAction<SetIntValue>("Charge Antic", 0).intValue = 100;
 
             _control.GetState("Hit Vertical").AddMethod(() => {
                 _control.GetFloatVariable("Angle").Value += (UnityEngine.Random.Range(0, 15) - UnityEngine.Random.Range(0, 15));
@@ -34,8 +30,6 @@ namespace BuzzbosLair
                 _control.GetFloatVariable("Angle").Value += (UnityEngine.Random.Range(0, 15) - UnityEngine.Random.Range(0, 15));
             });
 
-            //_control.RemoveAction("Hit Vertical", 1);
-            //_control.RemoveAction("Hit Horizontal", 1);
             _control.RemoveTransition("Hit Vertical", "END");
             _control.RemoveTransition("Hit Horizontal", "END");
 
@@ -63,10 +57,6 @@ namespace BuzzbosLair
             });
 
             _control.ChangeTransition("Check Dir", "FINISHED", "Random Dir");
-            /*_control.GetAction<FloatCompare>("Check Dir", 4).tolerance = 0.5f;
-            _control.GetAction<FloatCompare>("Check Dir", 5).tolerance = 0.5f;
-            _control.GetAction<FloatCompare>("Check Dir", 6).tolerance = 0.5f;
-            _control.GetAction<FloatCompare>("Check Dir", 7).tolerance = 0.5f;*/
 
             _alter_hm.hp += 70;
             _alter_hm.SetGeo(0,0,0);

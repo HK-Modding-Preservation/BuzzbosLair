@@ -3,14 +3,9 @@ using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
 using Modding;
 using SFCore.Utils;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace BuzzbosLair
 {
@@ -38,10 +33,10 @@ namespace BuzzbosLair
         private GameObject _roar_emitter;
         private GameObject _shadow_recharge;
 
-        private static float shadow_recharge_time = 1f;
+        private static readonly float shadow_recharge_time = 1f;
 
         private bool _hueshifter_exists = (ModHooks.GetMod("HueShifter") != null);
-        private Dictionary<string, float> _hueshifter_prev_settings = new Dictionary<string, float>();
+        private Dictionary<string, float> _hueshifter_prev_settings = new();
 
 
         void Awake()
@@ -650,10 +645,7 @@ namespace BuzzbosLair
         IEnumerator SSpamSlash()
         {
             yield return new WaitForSeconds(0.02f);
-            GameObject spike = SpawnTargetedHoneySpike(
-                transform.position,
-                HeroController.instance.transform.position
-                );
+            SpawnTargetedHoneySpike(transform.position, HeroController.instance.transform.position);
             
             yield return new WaitForSeconds(0.03f);
             if(spike_spamming)
@@ -679,11 +671,7 @@ namespace BuzzbosLair
             yield return new WaitForSeconds(0.02f);
             for (int i = 0; i < count; i++)
             {
-                GameObject spike = SpawnTargetedHoneySpike(
-                transform.position,
-                HeroController.instance.transform.position,
-                spread
-                );
+                SpawnTargetedHoneySpike(transform.position, HeroController.instance.transform.position, spread);
             }
             yield return new WaitForSeconds(0.03f);
             if (barraging)

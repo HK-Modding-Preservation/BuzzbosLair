@@ -8,7 +8,6 @@ namespace BuzzbosLair
     internal class SmallBee : MonoBehaviour
     {
 
-        //private HealthManager _hm;
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
         private AlterEnemyDreamnailReaction _alter_dnail_reaction;
@@ -19,7 +18,6 @@ namespace BuzzbosLair
         {
             gameObject.GetComponent<Recoil>().enabled = false;
 
-            //_hm = gameObject.GetComponent<HealthManager>();
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
             _alter_dnail_reaction = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
