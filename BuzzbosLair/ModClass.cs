@@ -1,4 +1,5 @@
-﻿using Modding;
+﻿using HutongGames.PlayMaker.Actions;
+using Modding;
 using SFCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.4.3.1-2";
+        public override string GetVersion() => "0.4.3-2";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -82,6 +83,30 @@ namespace BuzzbosLair
                     PlayMakerFSM _battleSceneControl = _battleScene.LocateMyFSM("Control");
 
                     _battleSceneControl.ChangeFsmTransition("Start Pause", "FINISHED", "Hive Knight");
+
+                    GameObject _hivequeen = _battleScene.Find("Vespa NPC");
+                    PlayMakerFSM _hivequeen_dialogue_fsm = _hivequeen.LocateMyFSM("Conversation Control");
+                    const string CONVO_FINISH = "CONVO_FINISH";
+
+                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 2");
+                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 3");
+                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 4");
+                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 5");
+
+                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 2", CONVO_FINISH, "Talk 3");
+                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 2", 0).parameters[0].SetValue("DESPACITO_2");
+
+                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 3", CONVO_FINISH, "Talk 4");
+                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 3", 0).parameters[0].SetValue("DESPACITO_3");
+
+                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 4", CONVO_FINISH, "Talk 5");
+                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 4", 0).parameters[0].SetValue("DESPACITO_4");
+
+                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 5", CONVO_FINISH, "Talk Finish");
+                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 5", 0).parameters[0].SetValue("DESPACITO_5");
+
+                    _hivequeen_dialogue_fsm.ChangeTransition("Talk", CONVO_FINISH, "Talk 2");
+
                     break;
             }
         }
