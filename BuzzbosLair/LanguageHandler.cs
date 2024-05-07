@@ -78,13 +78,13 @@ namespace BuzzbosLair
                 #region Queen
                 case "GH_HIVEQUEEN_NC_SUPER":
                 case "GH_HIVEQUEEN_C_SUPER":
-                    return key;
+                    return "Luis";
                 case "GH_HIVEQUEEN_NC_MAIN":
                 case "GH_HIVEQUEEN_C_MAIN":
-                    return key;
+                    return "\"Vespacito\"";
                 case "GH_HIVEQUEEN_NC_SUB":
                 case "GH_HIVEQUEEN_C_SUB":
-                    return key;
+                    return "Fonsi";
                 case "HIVEQUEEN_EXTRA":
                     return "Ay, ¡Fonsi! ¡D.Y.!<page>Ooh, oh, no, oh, no, oh<page>¡Hey, yeah!<page>Dididiri Daddy, go!<page>Sí, sabes que ya llevo un rato mirándote<page>Tengo que bailar contigo hoy (¡D.Y.!)<page>Vi que tu mirada ya estaba llamándome<page>Muéstrame el camino que yo voy<page>¡Oh! Tú, tú eres el imán y yo soy el metal<page>Me voy acercando y voy armando el plan<page>Sólo con pensarlo se acelera el pulso (¡Oh, yeah!)<page>Ya, ya me está gustando más de lo normal<page>Todos mis sentidos van pidiendo más<page>Esto hay que tomarlo sin ningún apuro";
                 case "HIVEQUEEN_TALK":
