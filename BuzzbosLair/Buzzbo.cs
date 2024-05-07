@@ -33,7 +33,7 @@ namespace BuzzbosLair
         private GameObject _roar_emitter;
         private GameObject _shadow_recharge;
 
-        private static readonly float shadow_recharge_time = 1f;
+        private const float SHADOW_RECHARGE_TIME = 1f;
 
         private bool _hueshifter_exists = (ModHooks.GetMod("HueShifter") != null);
         private Dictionary<string, float> _hueshifter_prev_settings = new();
@@ -59,7 +59,7 @@ namespace BuzzbosLair
             
             _shadow_recharge = Instantiate(HeroController.instance.gameObject.transform.Find("Effects/Shadow Recharge").gameObject, this.gameObject.transform);
             _shadow_recharge.transform.localScale *= 3;
-            _shadow_recharge.LocateMyFSM("Recharge Effect").FsmVariables.GetFsmFloat("Shadow Recharge Time").Value = shadow_recharge_time;
+            _shadow_recharge.LocateMyFSM("Recharge Effect").FsmVariables.GetFsmFloat("Shadow Recharge Time").Value = SHADOW_RECHARGE_TIME;
 
 
             _control = gameObject.LocateMyFSM("Control");
@@ -542,7 +542,7 @@ namespace BuzzbosLair
             roar.SetActive(true);
 
             _shadow_recharge.SetActive(true);
-            yield return new WaitForSeconds(shadow_recharge_time);
+            yield return new WaitForSeconds(SHADOW_RECHARGE_TIME);
             SetAwakened(true);
             awakening_tracker = UnityEngine.Random.Range(8, 11);
 
