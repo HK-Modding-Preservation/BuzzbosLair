@@ -86,7 +86,10 @@ namespace BuzzbosLair
                 switch (name)
                 {
                     case "BEE_HATCHLING":
-                        self.list[i].GetComponent<JournalEntryStats>().sprite = GetSprite(TextureStrings.BuzzboNormal_Key);
+                        self.list[i].GetComponent<JournalEntryStats>().sprite = GetSprite(TextureStrings.HJ_SmallBee_Key);
+                        break;
+                    case "ZOM_HIVE":
+                        self.list[i].GetComponent<JournalEntryStats>().sprite = GetSprite(TextureStrings.HJ_HuskHive_Key);
                         break;
                 }
                     
