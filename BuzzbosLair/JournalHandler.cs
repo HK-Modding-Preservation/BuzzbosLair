@@ -23,16 +23,21 @@ namespace BuzzbosLair
                         JournalEntryStats journal_entry = self.list[i].GetComponent<JournalEntryStats>();
 
                         Texture2D tex = BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key).texture;
-                        journal_entry.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), journal_entry.sprite.pixelsPerUnit / 1.4f);
+                        journal_entry.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), journal_entry.sprite.pixelsPerUnit);
 
                         break;
                     case "ZOM_HIVE":
-
-                        self.list[i].GetComponent<JournalEntryStats>().sprite = Sprite.Create(BuzzbosLair.GetSprite(TextureStrings.HJ_HuskHive_Key).texture, new Rect(0, 0, BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key).texture.width, BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key).texture.height), new Vector2(0.5f, 0.5f), self.list[i].GetComponent<JournalEntryStats>().sprite.pixelsPerUnit / 1.4f);
+                        ReplaceMainSprite(self.list[i].GetComponent<JournalEntryStats>(), BuzzbosLair.GetSprite(TextureStrings.HJ_HuskHive_Key));
                         break;
                 }
             }
             orig(self);
+        }
+
+        private static void ReplaceMainSprite(JournalEntryStats journal_entry, Sprite sprite)
+        {
+            Texture2D tex = sprite.texture;
+            journal_entry.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), journal_entry.sprite.pixelsPerUnit);
         }
     }
 }
