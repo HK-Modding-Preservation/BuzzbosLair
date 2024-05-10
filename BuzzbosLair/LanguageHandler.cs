@@ -68,7 +68,7 @@ namespace BuzzbosLair
                     return "Though their Honey Ichor gave them long-term regenerative abilities, the creatures of the H.I.V.E experimented with Windex, and enahnced their constitution tenfold. I wonder if it would have worked for me?";
 
                 case "NAME_ZOM_HIVE":
-                    return key;
+                    return "Windex Pod";
                 case "DESC_ZOM_HIVE":
                     return "An cloner-incubator, filled with Windex.";
                 case "NOTE_ZOM_HIVE":
