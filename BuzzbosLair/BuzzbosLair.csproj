@@ -54,11 +54,14 @@
   <ItemGroup>
     <None Remove="Resources\BuzzboAwakened.png" />
     <None Remove="Resources\BuzzboNormal.png" />
+    <None Remove="Resources\HJ_HuskHive.png" />
+    <None Remove="Resources\HJ_SmallBee.png" />
     <None Remove="Resources\HuskHive.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BuzzboAwakened.png" />
     <EmbeddedResource Include="Resources\BuzzboNormal.png" />
+    <EmbeddedResource Include="Resources\HJ_HuskHive.png" />
     <EmbeddedResource Include="Resources\HuskHive.png" />
   </ItemGroup>
   <ItemGroup>
@@ -345,5 +348,8 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="Resources\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\HJ_SmallBee.png" />
   </ItemGroup>
 </Project>
