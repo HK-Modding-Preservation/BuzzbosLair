@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BuzzbosLair
 {
@@ -14,16 +9,13 @@ namespace BuzzbosLair
             BuzzbosLair.Instance.Log("On.JournalList.BuildEnemyList hook called");
             for (int i = 0; i < self.list.Length; i++)
             {
-                //Log(self.list[i].name);
                 JournalEntryStats journal_entry = self.list[i].GetComponent<JournalEntryStats>();
                 string name = journal_entry.convoName;
 
                 switch (name)
                 {
                     case "BEE_HATCHLING":
-                        Texture2D tex = BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key).texture;
-                        journal_entry.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), journal_entry.sprite.pixelsPerUnit);
-
+                        ReplaceMainSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key));
                         break;
                     case "ZOM_HIVE":
                         ReplaceMainSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_HuskHive_Key));
