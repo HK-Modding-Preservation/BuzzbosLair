@@ -32,7 +32,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.5.0-1";
+        public override string GetVersion() => "0.5.0-4";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
@@ -70,31 +70,9 @@ namespace BuzzbosLair
             ModHooks.OnEnableEnemyHook += EnemyHandler.EnemyEnabled;
             ModHooks.LanguageGetHook += LanguageHandler.LanguageGet;
             USceneManager.activeSceneChanged += SceneChanged;
-            On.JournalList.BuildEnemyList += JournalList_BuildEnemyList;
+            On.JournalList.BuildEnemyList += JournalHandler.JournalList_BuildEnemyList;
 
             Log("Initialized");
-        }
-
-        private void JournalList_BuildEnemyList(On.JournalList.orig_BuildEnemyList orig, JournalList self)
-        {
-            Log("On.JournalList.BuildEnemyList hook called");
-            for (int i = 0; i < self.list.Length; i++)
-            {
-                //Log(self.list[i].name);
-                string name = self.list[i].GetComponent<JournalEntryStats>().convoName;
-                
-                switch (name)
-                {
-                    case "BEE_HATCHLING":
-                        self.list[i].GetComponent<JournalEntryStats>().sprite = GetSprite(TextureStrings.HJ_SmallBee_Key);
-                        break;
-                    case "ZOM_HIVE":
-                        self.list[i].GetComponent<JournalEntryStats>().sprite = GetSprite(TextureStrings.HJ_HuskHive_Key);
-                        break;
-                }
-                    
-            }
-            orig(self);
         }
 
         private void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
