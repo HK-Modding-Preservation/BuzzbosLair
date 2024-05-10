@@ -6,7 +6,6 @@ namespace BuzzbosLair
     {
         internal static void JournalList_BuildEnemyList(On.JournalList.orig_BuildEnemyList orig, JournalList self)
         {
-            BuzzbosLair.Instance.Log("On.JournalList.BuildEnemyList hook called");
             for (int i = 0; i < self.list.Length; i++)
             {
                 JournalEntryStats journal_entry = self.list[i].GetComponent<JournalEntryStats>();
