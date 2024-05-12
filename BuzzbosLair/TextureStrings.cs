@@ -20,6 +20,8 @@ namespace BuzzbosLair
         private const string HJ_HuskHive_File = "BuzzbosLair.Resources.HJ_HuskHive.png";
         public const string HJ_SmallBee_Key = "HJ_SmallBee";
         private const string HJ_SmallBee_File = "BuzzbosLair.Resources.HJ_SmallBee.png";
+        public const string HJ_Buzzbo_Key = "HJ_Buzzbo";
+        private const string HJ_Buzzbo_File = "BuzzbosLair.Resources.HJ_Buzzbo.png";
 
         private readonly Dictionary<string, Sprite> _dict;
 
@@ -36,6 +38,7 @@ namespace BuzzbosLair
             tmpTextures.Add(HuskHive_Key, HuskHive_File);
             tmpTextures.Add(HJ_HuskHive_Key, HJ_HuskHive_File);
             tmpTextures.Add(HJ_SmallBee_Key, HJ_SmallBee_File);
+            tmpTextures.Add(HJ_Buzzbo_Key, HJ_Buzzbo_File);
 
             foreach (var pair in tmpTextures)
             {
