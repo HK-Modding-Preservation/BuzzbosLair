@@ -16,7 +16,7 @@ namespace BuzzbosLair
                 {
                     case "BEE_HATCHLING":
                         ReplaceMainSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key));
-                        ReplaceListSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Key));
+                        ReplaceListSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_SmallBee_Icon_Key));
                         break;
                     case "ZOM_HIVE":
                         ReplaceMainSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_HuskHive_Key));
