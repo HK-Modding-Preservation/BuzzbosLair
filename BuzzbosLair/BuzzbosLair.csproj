@@ -56,6 +56,7 @@
     <None Remove="Resources\BuzzboNormal.png" />
     <None Remove="Resources\HJ_Buzzbo.png" />
     <None Remove="Resources\HJ_HuskHive.png" />
+    <None Remove="Resources\HJ_HuskHive_Icon.png" />
     <None Remove="Resources\HJ_SmallBee.png" />
     <None Remove="Resources\HuskHive.png" />
   </ItemGroup>
@@ -64,6 +65,7 @@
     <EmbeddedResource Include="Resources\BuzzboNormal.png" />
     <EmbeddedResource Include="Resources\HJ_Buzzbo.png" />
     <EmbeddedResource Include="Resources\HJ_HuskHive.png" />
+    <EmbeddedResource Include="Resources\HJ_HuskHive_Icon.png" />
     <EmbeddedResource Include="Resources\HuskHive.png" />
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,7 @@ namespace BuzzbosLair
                         break;
                     case "ZOM_HIVE":
                         ReplaceMainSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_HuskHive_Key));
+                        ReplaceListSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_HuskHive_Icon_Key));
                         break;
                     case "HIVE_KNIGHT":
                         ReplaceMainSprite(journal_entry, BuzzbosLair.GetSprite(TextureStrings.HJ_Buzzbo_Key));
@@ -37,7 +38,9 @@ namespace BuzzbosLair
 
         private static void ReplaceListSprite(JournalEntryStats journal_entry, Sprite sprite)
         {
-            journal_entry.gameObject.Find("Portrait").GetComponent<SpriteRenderer>().sprite = sprite;
+            Texture2D tex = sprite.texture;
+            journal_entry.gameObject.Find("Portrait").GetComponent<SpriteRenderer>().sprite = 
+                Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), journal_entry.gameObject.Find("Portrait").GetComponent<SpriteRenderer>().sprite.pixelsPerUnit);
         }
     }
 }
