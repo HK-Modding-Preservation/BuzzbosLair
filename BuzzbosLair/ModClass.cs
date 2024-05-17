@@ -26,6 +26,7 @@ namespace BuzzbosLair
             ["Husk Hive"] = ("Hive_01", "Zombie Hive"),
             ["Ambient Bee"] = ("Hive_01", "Bee Hatchling Ambient"),
             ["Grey Prince Zote"] = ("GG_Grey_Prince_Zote", "Grey Prince"),
+            ["Hive Floor Spike Hitbox"] = ("Hive_05", "Spike Collider"),
         };
 
         public TextureStrings SpriteDict { get; private set; }
@@ -108,6 +109,18 @@ namespace BuzzbosLair
 
                     _hivequeen_dialogue_fsm.ChangeTransition("Talk", CONVO_FINISH, "Talk 2");
 
+                    break;
+                case "Hive_04":
+                    GameObject spike_hitbox_left = GameObject.Instantiate(_gameObjects["Hive Floor Spike Hitbox"], new Vector3(150.7f, 89.7f, 0f), _gameObjects["Hive Floor Spike Hitbox"].transform.rotation);
+                    spike_hitbox_left.transform.localScale = new Vector3(-1f, -0.8f, 1f);
+                    GameObject spike_hitbox_middle = GameObject.Instantiate(_gameObjects["Hive Floor Spike Hitbox"], new Vector3(171.7f, 89.7f, 0f), _gameObjects["Hive Floor Spike Hitbox"].transform.rotation);
+                    spike_hitbox_middle.transform.localScale = new Vector3(-0.5f, -0.75f, 1f);
+                    GameObject spike_hitbox_right = GameObject.Instantiate(_gameObjects["Hive Floor Spike Hitbox"], new Vector3(192.7f, 89.7f, 0f), _gameObjects["Hive Floor Spike Hitbox"].transform.rotation);
+                    spike_hitbox_right.transform.localScale = new Vector3(-0.5f, 1f, 1f);
+
+                    spike_hitbox_left.SetActive(true);
+                    spike_hitbox_middle.SetActive(true);
+                    spike_hitbox_right.SetActive(true);
                     break;
             }
         }
