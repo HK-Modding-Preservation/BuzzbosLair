@@ -1,12 +1,23 @@
 ﻿
 using HutongGames.PlayMaker.Actions;
 using SFCore.Utils;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuzzbosLair
 {
     internal class SceneHandler
     {
+        private static GameObject spike_hitbox = BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"];
+
+        private static ValueTuple<GameObject, Vector3, Quaternion, Vector3>[] spike_positions =
+        {
+            (spike_hitbox, new Vector3(150.7f, 89.7f, 0f), spike_hitbox.transform.rotation, new Vector3(-1f, -0.8f, 1f)),
+            (spike_hitbox, new Vector3(171.7f, 89.7f, 0f), spike_hitbox.transform.rotation, new Vector3(-0.5f, -0.75f, 1f)),
+            (spike_hitbox, new Vector3(192.7f, 89.7f, 0f), spike_hitbox.transform.rotation, new Vector3(-0.5f, 1f, 1f)),
+        };
+
         internal static void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
         {
             switch (arg1.name)
@@ -42,7 +53,7 @@ namespace BuzzbosLair
 
                     break;
                 case "Hive_04":
-                    GameObject spike_hitbox_left = GameObject.Instantiate(BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"], new Vector3(150.7f, 89.7f, 0f), BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"].transform.rotation);
+                    /*GameObject spike_hitbox_left = GameObject.Instantiate(BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"], new Vector3(150.7f, 89.7f, 0f), BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"].transform.rotation);
                     spike_hitbox_left.transform.localScale = new Vector3(-1f, -0.8f, 1f);
                     GameObject spike_hitbox_middle = GameObject.Instantiate(BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"], new Vector3(171.7f, 89.7f, 0f), BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"].transform.rotation);
                     spike_hitbox_middle.transform.localScale = new Vector3(-0.5f, -0.75f, 1f);
@@ -51,7 +62,14 @@ namespace BuzzbosLair
 
                     spike_hitbox_left.SetActive(true);
                     spike_hitbox_middle.SetActive(true);
-                    spike_hitbox_right.SetActive(true);
+                    spike_hitbox_right.SetActive(true);*/
+                    //ValueTuple < GameObject, Vector3, Quaternion, Vector3 >
+                    foreach (var (go, pos, rot, scale) in spike_positions)
+                    {
+                        GameObject spawned = GameObject.Instantiate(go, pos, rot);
+                        spawned.transform.localScale = scale;
+                        spawned.SetActive(true);
+                    }
 
                     GameObject spike_sprite = GameObject.Instantiate(BuzzbosLair._gameObjects["Hive Floor Spike Sprite"], new Vector3(158.8f, 91f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)));
                     spike_sprite.SetActive(true);
