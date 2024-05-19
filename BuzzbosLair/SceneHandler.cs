@@ -18,6 +18,9 @@ namespace BuzzbosLair
             (spike_hitbox, new Vector3(171.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-0.5f, -0.75f, 1f)),
             (spike_hitbox, new Vector3(192.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-0.5f, 1f, 1f)),
 
+            (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(143f, 114f), Quaternion.Euler(Vector3.zero), Vector3.one),
+            (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(205f, 103f), Quaternion.Euler(Vector3.zero), Vector3.one),
+
             (spike_sprite, new Vector3(158.8f, 91f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(150.7f, 89.7f), spike_sprite.transform.rotation, spike_sprite.transform.localScale),
         };
@@ -57,15 +60,13 @@ namespace BuzzbosLair
 
                     break;
                 case "Hive_04":
+
                     foreach (var (go, pos, rot, scale) in spike_positions)
                     {
                         GameObject spawned = GameObject.Instantiate(go, pos, rot);
                         spawned.transform.localScale = scale;
                         spawned.SetActive(true);
                     }
-
-                    GameObject respawn_trigger = GameObject.Instantiate(BuzzbosLair._gameObjects["Hazard Respawn Trigger"]);
-                    respawn_trigger.SetActive(true);
 
                     break;
             }
