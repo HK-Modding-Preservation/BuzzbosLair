@@ -2,8 +2,6 @@
 using HutongGames.PlayMaker.Actions;
 using SFCore.Utils;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace BuzzbosLair
 {
@@ -57,6 +55,9 @@ namespace BuzzbosLair
 
                     GameObject spike_sprite = GameObject.Instantiate(BuzzbosLair._gameObjects["Hive Floor Spike Sprite"], new Vector3(158.8f, 91f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)));
                     spike_sprite.SetActive(true);
+
+                    GameObject respawn_trigger = GameObject.Instantiate(BuzzbosLair._gameObjects["Hazard Respawn Trigger"]);
+                    respawn_trigger.SetActive(true);
 
                     break;
             }
