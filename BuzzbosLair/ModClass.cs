@@ -27,6 +27,7 @@ namespace BuzzbosLair
             ["Ambient Bee"] = ("Hive_01", "Bee Hatchling Ambient"),
             ["Grey Prince Zote"] = ("GG_Grey_Prince_Zote", "Grey Prince"),
             ["Hive Floor Spike Hitbox"] = ("Hive_05", "Spike Collider"),
+            ["Hive Floor Spike Sprite"] = ("Hive_05", "hive_charm_spikes_0002_2"),
         };
 
         public TextureStrings SpriteDict { get; private set; }

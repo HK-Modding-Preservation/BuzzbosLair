@@ -54,6 +54,10 @@ namespace BuzzbosLair
                     spike_hitbox_left.SetActive(true);
                     spike_hitbox_middle.SetActive(true);
                     spike_hitbox_right.SetActive(true);
+
+                    GameObject spike_sprite = GameObject.Instantiate(BuzzbosLair._gameObjects["Hive Floor Spike Sprite"], new Vector3(158.8f, 91f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)));
+                    spike_sprite.SetActive(true);
+
                     break;
             }
         }
