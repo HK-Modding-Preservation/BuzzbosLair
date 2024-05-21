@@ -11,8 +11,9 @@ namespace BuzzbosLair
     {
         private static GameObject spike_hitbox = BuzzbosLair._gameObjects["Hive Floor Spike Hitbox"];
         private static GameObject spike_sprite = BuzzbosLair._gameObjects["Hive Floor Spike Sprite"];
+        private static GameObject spike_shadow = BuzzbosLair._gameObjects["Hive Floor Spike Shadow"];
 
-        private static ValueTuple<GameObject, Vector3, Quaternion, Vector3>[] spike_positions =
+        private static ValueTuple<GameObject, Vector3, Quaternion, Vector3>[] spike_related_spawns =
         {
             (spike_hitbox, new Vector3(150.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-1f, -0.8f, 1f)),
             (spike_hitbox, new Vector3(171.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-0.5f, -0.75f, 1f)),
@@ -22,7 +23,18 @@ namespace BuzzbosLair
             (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(205f, 103f), Quaternion.Euler(Vector3.zero), Vector3.one),
 
             (spike_sprite, new Vector3(158.8f, 91f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
-            (spike_sprite, new Vector3(150.7f, 89.7f), spike_sprite.transform.rotation, spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(150.7f, 89.7f, -1f), spike_sprite.transform.rotation, spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(152.5f, 89.7f, -1f), Quaternion.Euler(new Vector3(0,0, 5f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(148.7f, 90.2f, -1f), Quaternion.Euler(new Vector3(0,0, 340f)), new Vector3(-spike_sprite.transform.localScale.x, spike_sprite.transform.localScale.y, spike_sprite.transform.localScale.z)),
+            (spike_sprite, new Vector3(155f, 89.7f, -1f), Quaternion.Euler(new Vector3(0,0, 20f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(154f, 89.7f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(155.2f, 89.2f, -1f), Quaternion.Euler(new Vector3(0,0, 20f)), new Vector3(-spike_sprite.transform.localScale.x, spike_sprite.transform.localScale.y, spike_sprite.transform.localScale.z)),
+            (spike_sprite, new Vector3(159f, 90.5f), Quaternion.Euler(Vector3.zero), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(138.3f, 91.7f, -1f), Quaternion.Euler(new Vector3(0,0, 310f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(139f, 91f, -0.5f), Quaternion.Euler(new Vector3(0,0, 320f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(140.7f, 91f, -1f), Quaternion.Euler(Vector3.zero), spike_sprite.transform.localScale),
+            
+            (spike_shadow, new Vector3(140.7f, 91f, -1f), Quaternion.Euler(Vector3.zero), spike_shadow.transform.localScale),
         };
 
         internal static void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
@@ -61,7 +73,7 @@ namespace BuzzbosLair
                     break;
                 case "Hive_04":
 
-                    foreach (var (go, pos, rot, scale) in spike_positions)
+                    foreach (var (go, pos, rot, scale) in spike_related_spawns)
                     {
                         GameObject spawned = GameObject.Instantiate(go, pos, rot);
                         spawned.transform.localScale = scale;

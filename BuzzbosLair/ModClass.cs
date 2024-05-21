@@ -28,6 +28,7 @@ namespace BuzzbosLair
             ["Grey Prince Zote"] = ("GG_Grey_Prince_Zote", "Grey Prince"),
             ["Hive Floor Spike Hitbox"] = ("Hive_05", "Spike Collider"),
             ["Hive Floor Spike Sprite"] = ("Hive_05", "hive_charm_spikes_0002_2"),
+            ["Hive Floor Spike Shadow"] = ("Hive_05", "hive_charm_spikes_0000_4"),
             ["Hazard Respawn Trigger"] = ("Hive_05", "Hazard Respawn Trigger v2"),
         };
 
