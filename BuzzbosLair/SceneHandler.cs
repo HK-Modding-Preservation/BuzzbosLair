@@ -33,8 +33,26 @@ namespace BuzzbosLair
             (spike_sprite, new Vector3(138.3f, 91.7f, -1f), Quaternion.Euler(new Vector3(0,0, 310f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(139f, 91f, -0.5f), Quaternion.Euler(new Vector3(0,0, 320f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(140.7f, 91f, -1f), Quaternion.Euler(Vector3.zero), spike_sprite.transform.localScale),
-            
-            (spike_shadow, new Vector3(140.7f, 91f, -1f), Quaternion.Euler(Vector3.zero), spike_shadow.transform.localScale),
+            (spike_sprite, new Vector3(146.7f, 90.2f, -1f), Quaternion.Euler(new Vector3(0,0,4f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(144.8f, 90.2f, -1f), Quaternion.Euler(new Vector3(0,0,356f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(142.7f, 90.6f, -1f), Quaternion.Euler(new Vector3(0,0,348f)), spike_sprite.transform.localScale),
+
+            (spike_shadow, new Vector3(137.7f, 92f, -5.08f), Quaternion.Euler(new Vector3(0,0,310f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(139.2f, 90.5f, -5.08f), Quaternion.Euler(new Vector3(0,0,320f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(138.2f, 92.4f, -3f), Quaternion.Euler(new Vector3(0,0,300f)), new Vector3(1.6f, 1.8f, spike_shadow.transform.localScale.z)),
+            (spike_shadow, new Vector3(140.7f, 91f, -4f), Quaternion.Euler(new Vector3(0,0,350f)), new Vector3(1.7f, 1.7f, spike_shadow.transform.localScale.z)),
+            (spike_shadow, new Vector3(139.7f, 91f, -5.08f), Quaternion.Euler(new Vector3(0,0,340f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(155f, 89.8f, -5.08f), Quaternion.Euler(new Vector3(0,0,15f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(157f, 89.8f, -5.08f), Quaternion.Euler(new Vector3(0,0,20f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(158.5f, 90.7f, -5.08f), Quaternion.Euler(Vector3.zero), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(160.8f, 90.2f, -5.08f), Quaternion.Euler(new Vector3(0,0,350f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(153f, 89.6f, -5.08f), Quaternion.Euler(new Vector3(0,0,5f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(150.7f, 89.7f, -5.08f), Quaternion.Euler(new Vector3(0,0,358f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(149.2f, 89.7f, -5.08f), Quaternion.Euler(new Vector3(0,0,349f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(147f, 90.1f, -5.08f), Quaternion.Euler(new Vector3(0,0,3f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(145f, 90f, -5.08f), Quaternion.Euler(new Vector3(0,0,355f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(143.3f, 90.6f, -5.08f), Quaternion.Euler(new Vector3(0,0,350f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(145.5f, 88f, -5.08f), Quaternion.Euler(new Vector3(0,0,270)), new Vector3(spike_shadow.transform.localScale.x, 4f, spike_shadow.transform.localScale.z)),
         };
 
         internal static void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
