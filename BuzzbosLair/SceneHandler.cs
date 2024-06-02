@@ -22,6 +22,7 @@ namespace BuzzbosLair
             (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(143f, 114f), Quaternion.Euler(Vector3.zero), Vector3.one),
             (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(205f, 103f), Quaternion.Euler(Vector3.zero), Vector3.one),
 
+            // Left block spikes
             (spike_sprite, new Vector3(158.8f, 91f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(150.7f, 89.7f, -1f), spike_sprite.transform.rotation, spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(152.5f, 89.7f, -1f), Quaternion.Euler(new Vector3(0,0, 5f)), spike_sprite.transform.localScale),
@@ -37,6 +38,7 @@ namespace BuzzbosLair
             (spike_sprite, new Vector3(144.8f, 90.2f, -1f), Quaternion.Euler(new Vector3(0,0,356f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(142.7f, 90.6f, -1f), Quaternion.Euler(new Vector3(0,0,348f)), spike_sprite.transform.localScale),
 
+            // Left block shadows
             (spike_shadow, new Vector3(137.7f, 92f, -5.08f), Quaternion.Euler(new Vector3(0,0,310f)), spike_shadow.transform.localScale),
             (spike_shadow, new Vector3(139.2f, 90.5f, -5.08f), Quaternion.Euler(new Vector3(0,0,320f)), spike_shadow.transform.localScale),
             (spike_shadow, new Vector3(138.2f, 92.4f, -3f), Quaternion.Euler(new Vector3(0,0,300f)), new Vector3(1.6f, 1.8f, spike_shadow.transform.localScale.z)),
@@ -53,6 +55,15 @@ namespace BuzzbosLair
             (spike_shadow, new Vector3(145f, 90f, -5.08f), Quaternion.Euler(new Vector3(0,0,355f)), spike_shadow.transform.localScale),
             (spike_shadow, new Vector3(143.3f, 90.6f, -5.08f), Quaternion.Euler(new Vector3(0,0,350f)), spike_shadow.transform.localScale),
             (spike_shadow, new Vector3(145.5f, 88f, -5.08f), Quaternion.Euler(new Vector3(0,0,270)), new Vector3(spike_shadow.transform.localScale.x, 4f, spike_shadow.transform.localScale.z)),
+
+            // Middle block sprites
+            (spike_sprite, new Vector3(162f, 89.6f, -0.2f), Quaternion.Euler(new Vector3(0,0, 5f)), new Vector3(-spike_sprite.transform.localScale.x, spike_sprite.transform.localScale.y, spike_sprite.transform.localScale.z)),
+            (spike_sprite, new Vector3(164f, 89.5f, -0.2f), Quaternion.Euler(new Vector3(0,0,350f)), new Vector3(-spike_sprite.transform.localScale.x, spike_sprite.transform.localScale.y, spike_sprite.transform.localScale.z)),
+            (spike_sprite, new Vector3(166.2f, 89.4f, -0.2f), Quaternion.Euler(new Vector3(0,0, 355f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(167.45f, 89.7f, -0.2f), Quaternion.Euler(new Vector3(0,0,355f)), new Vector3(-spike_sprite.transform.localScale.x, spike_sprite.transform.localScale.y, spike_sprite.transform.localScale.z)),
+            (spike_sprite, new Vector3(169.4f, 89.3f, -0.2f), Quaternion.Euler(new Vector3(0,0, 350f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(171.2f, 89.1f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
+
         };
 
         internal static void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
