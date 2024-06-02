@@ -17,7 +17,7 @@ namespace BuzzbosLair
         {
             (spike_hitbox, new Vector3(150.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-1f, -0.8f, 1f)),
             (spike_hitbox, new Vector3(171.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-0.5f, -0.75f, 1f)),
-            (spike_hitbox, new Vector3(192.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-0.5f, 1f, 1f)),
+            //(spike_hitbox, new Vector3(192.7f, 89.7f), spike_hitbox.transform.rotation, new Vector3(-0.5f, 1f, 1f)),
 
             (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(143f, 114f), Quaternion.Euler(Vector3.zero), Vector3.one),
             (BuzzbosLair._gameObjects["Hazard Respawn Trigger"], new Vector3(205f, 103f), Quaternion.Euler(Vector3.zero), Vector3.one),
@@ -63,6 +63,9 @@ namespace BuzzbosLair
             (spike_sprite, new Vector3(167.45f, 89.7f, -0.2f), Quaternion.Euler(new Vector3(0,0,355f)), new Vector3(-spike_sprite.transform.localScale.x, spike_sprite.transform.localScale.y, spike_sprite.transform.localScale.z)),
             (spike_sprite, new Vector3(169.4f, 89.3f, -0.2f), Quaternion.Euler(new Vector3(0,0, 350f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(171.2f, 89.1f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(173f, 89.1f, -0.2f), Quaternion.Euler(new Vector3(0,0, 348f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(175f, 89.5f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
+            (spike_sprite, new Vector3(177f, 89.6f, -0.2f), Quaternion.Euler(new Vector3(0,0, 20f)), spike_sprite.transform.localScale),
 
         };
 
