@@ -88,11 +88,12 @@ namespace BuzzbosLair
             _alter_dreamnail.SetNoReaction();
 
             fsm.ChangeTransition("Friendly?", "TOOK DAMAGE", "Idle");
-            fsm.RemoveTransition("Idle", "ALERT");
+            fsm.RemoveAction("Idle", 0);
             fsm.AddAction("Idle", fsm.GetAction<WaitRandom>("Run", 8));
             fsm.AddTransition("Idle", "FINISHED", "Hatched Amount");
             fsm.ChangeTransition("Hatched Amount", "CANCEL", "Idle");
             fsm.ChangeTransition("Anim End", "FINISHED", "Idle");
+            fsm.SetState("Init");
         }
 
     }
