@@ -34,7 +34,7 @@ namespace BuzzbosLair
                 enemy.GetOrAddComponent<Buzzbo>();
             }
 
-            if (enemy.name.Contains("Zombie Hive"))
+            if (enemy.name.Contains("Zombie Hive") && !enemy.GetComponent<StaticPod>())
             {
                 enemy.GetOrAddComponent<WindexPod>();
             }

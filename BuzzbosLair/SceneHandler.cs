@@ -1,8 +1,8 @@
 ﻿
 using HutongGames.PlayMaker.Actions;
+using Modding.Utils;
 using SFCore.Utils;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuzzbosLair
@@ -111,6 +111,12 @@ namespace BuzzbosLair
                         spawned.transform.localScale = scale;
                         spawned.SetActive(true);
                     }
+
+                    GameObject static_pod = GameObject.Find("Zombie Hive (6)");
+                    static_pod.GetOrAddComponent<StaticPod>();
+                    static_pod.transform.position = new Vector3(206f, 96f);
+                    static_pod.transform.SetScaleY(-1);
+                    static_pod.Find("Bee Hatchling Ambient(Clone)(Clone)").transform.localScale = new Vector3(1, -1, 1.5f);
 
                     break;
             }
