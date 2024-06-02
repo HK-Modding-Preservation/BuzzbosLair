@@ -26,6 +26,10 @@ namespace BuzzbosLair
             ["Husk Hive"] = ("Hive_01", "Zombie Hive"),
             ["Ambient Bee"] = ("Hive_01", "Bee Hatchling Ambient"),
             ["Grey Prince Zote"] = ("GG_Grey_Prince_Zote", "Grey Prince"),
+            ["Hive Floor Spike Hitbox"] = ("Hive_05", "Spike Collider"),
+            ["Hive Floor Spike Sprite"] = ("Hive_05", "hive_charm_spikes_0002_2"),
+            ["Hive Floor Spike Shadow"] = ("Hive_05", "hive_charm_spikes_0000_4"),
+            ["Hazard Respawn Trigger"] = ("Hive_05", "Hazard Respawn Trigger v2"),
         };
 
         public TextureStrings SpriteDict { get; private set; }
@@ -69,47 +73,10 @@ namespace BuzzbosLair
             EnemyHandler.InitEnemies();
             ModHooks.OnEnableEnemyHook += EnemyHandler.EnemyEnabled;
             ModHooks.LanguageGetHook += LanguageHandler.LanguageGet;
-            USceneManager.activeSceneChanged += SceneChanged;
+            USceneManager.activeSceneChanged += SceneHandler.SceneChanged;
             On.JournalList.BuildEnemyList += JournalHandler.JournalList_BuildEnemyList;
 
             Log("Initialized");
-        }
-
-        private void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
-        {
-            switch(arg1.name)
-            {
-                case "Hive_05":
-                    GameObject _battleScene = arg1.Find("Battle Scene");
-                    PlayMakerFSM _battleSceneControl = _battleScene.LocateMyFSM("Control");
-
-                    _battleSceneControl.ChangeFsmTransition("Start Pause", "FINISHED", "Hive Knight");
-
-                    GameObject _hivequeen = _battleScene.Find("Vespa NPC");
-                    PlayMakerFSM _hivequeen_dialogue_fsm = _hivequeen.LocateMyFSM("Conversation Control");
-                    const string CONVO_FINISH = "CONVO_FINISH";
-
-                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 2");
-                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 3");
-                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 4");
-                    _hivequeen_dialogue_fsm.CopyState("Talk Extra", "Talk 5");
-
-                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 2", CONVO_FINISH, "Talk 3");
-                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 2", 0).parameters[0].SetValue("DESPACITO_2");
-
-                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 3", CONVO_FINISH, "Talk 4");
-                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 3", 0).parameters[0].SetValue("DESPACITO_3");
-
-                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 4", CONVO_FINISH, "Talk 5");
-                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 4", 0).parameters[0].SetValue("DESPACITO_4");
-
-                    _hivequeen_dialogue_fsm.ChangeTransition("Talk 5", CONVO_FINISH, "Talk Finish");
-                    _hivequeen_dialogue_fsm.GetAction<CallMethodProper>("Talk 5", 0).parameters[0].SetValue("DESPACITO_5");
-
-                    _hivequeen_dialogue_fsm.ChangeTransition("Talk", CONVO_FINISH, "Talk 2");
-
-                    break;
-            }
         }
     }
 }
