@@ -48,7 +48,7 @@ namespace BuzzbosLair
             _alter_dreamnail.SetNoReaction();
         }
 
-        public void MakeStationary()
+        public void MakeStationary(Vector3 position, float rotation)
         {
             if (!isStationary)
             {
@@ -68,6 +68,10 @@ namespace BuzzbosLair
                 fsm.AddTransition("Idle", "FINISHED", "Hatched Amount");
                 fsm.ChangeTransition("Hatched Amount", "CANCEL", "Idle");
                 fsm.ChangeTransition("Anim End", "FINISHED", "Idle");
+
+                gameObject.transform.position = position;
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+                little_bee.transform.rotation = Quaternion.identity;
 
                 StartCoroutine(SetStateToInit());
 

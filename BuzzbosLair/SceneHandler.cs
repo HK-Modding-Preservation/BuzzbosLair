@@ -113,10 +113,7 @@ namespace BuzzbosLair
                     }
 
                     GameObject static_pod = GameObject.Find("Zombie Hive (6)");
-                    static_pod.GetOrAddComponent<WindexPod>().MakeStationary();
-                    static_pod.transform.position = new Vector3(206f, 96f);
-                    static_pod.transform.SetScaleY(-1);
-                    static_pod.Find("Bee Hatchling Ambient(Clone)(Clone)").transform.localScale = new Vector3(1, -1, 1.5f);
+                    static_pod.GetOrAddComponent<WindexPod>().MakeStationary(new Vector3(206f, 96f), 180);
 
                     break;
             }
