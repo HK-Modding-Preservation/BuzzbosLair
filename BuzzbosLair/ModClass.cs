@@ -1,11 +1,8 @@
-﻿using HutongGames.PlayMaker.Actions;
-using Modding;
-using SFCore.Utils;
+﻿using Modding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UObject = UnityEngine.Object;
 using USceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace BuzzbosLair
@@ -36,7 +33,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.5.2";
+        public override string GetVersion() => "0.5.3";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
