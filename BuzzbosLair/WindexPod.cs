@@ -52,6 +52,12 @@ namespace BuzzbosLair
         {
             if (!isStationary)
             {
+                IEnumerator SetStateToInit()
+                {
+                    yield return new WaitForEndOfFrame();
+                    fsm.SetState("Init");
+                }
+
                 gameObject.GetComponent<Walker>().enabled = false;
                 gameObject.GetComponent<Recoil>().enabled = false;
                 gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
@@ -62,18 +68,12 @@ namespace BuzzbosLair
                 fsm.AddTransition("Idle", "FINISHED", "Hatched Amount");
                 fsm.ChangeTransition("Hatched Amount", "CANCEL", "Idle");
                 fsm.ChangeTransition("Anim End", "FINISHED", "Idle");
-                //m.SetState("Init");
+
                 StartCoroutine(SetStateToInit());
 
                 isStationary = true;
             }
             else BuzzbosLair.Instance.Log(gameObject.name + "(" + this + ") is already stationary!");
-        }
-
-        private IEnumerator SetStateToInit()
-        {
-            yield return new WaitForEndOfFrame();
-            fsm.SetState("Init");
         }
     }
 }
