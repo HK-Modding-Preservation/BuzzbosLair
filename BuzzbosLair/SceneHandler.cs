@@ -112,10 +112,40 @@ namespace BuzzbosLair
                         spawned.SetActive(true);
                     }
 
-                    GameObject static_pod = GameObject.Find("Zombie Hive (6)");
-                    static_pod.GetOrAddComponent<WindexPod>().MakeStationary(new Vector3(206f, 96f), 180);
+                    GameObject stationary_pod = GameObject.Find("Zombie Hive (6)");
+                    stationary_pod.GetOrAddComponent<WindexPod>().MakeStationary(new Vector3(206f, 96f), 180);
 
                     break;
+
+                case "Hive_03":
+                    Hive_03();
+                    break;
+                case "Hive_03_c":
+                    Hive_03_C();
+                    break;
+            }
+        }
+
+        private static void Hive_03()
+        {
+            GameObject hatcher_cage = GameObject.Instantiate(BuzzbosLair._gameObjects["Hatcher Cage"]);
+            hatcher_cage.SetActive(true);
+
+            GameObject stationary_pod = GameObject.Instantiate(BuzzbosLair._gameObjects["Husk Hive"]);
+            stationary_pod.SetActive(true);
+            stationary_pod.GetOrAddComponent<WindexPod>().MakeStationary(new Vector3(90.5f, 129.8f), 180);
+        }
+        private static void Hive_03_C()
+        {
+            GameObject hatcher_cage = GameObject.Instantiate(BuzzbosLair._gameObjects["Hatcher Cage"]);
+            hatcher_cage.SetActive(true);
+
+            Vector3[] pod_positions = { new Vector3(87f, 95.2f), new Vector3 (126, 100)};
+            foreach (Vector3 pos in pod_positions)
+            {
+                GameObject stationary_pod = GameObject.Instantiate(BuzzbosLair._gameObjects["Husk Hive"]);
+                stationary_pod.SetActive(true);
+                stationary_pod.GetOrAddComponent<WindexPod>().MakeStationary(pos, 180);
             }
         }
     }
