@@ -1,4 +1,7 @@
 ﻿using FriendCore;
+using HutongGames.PlayMaker.Actions;
+using SFCore.Utils;
+using System.Collections;
 using UnityEngine;
 
 namespace BuzzbosLair
@@ -11,6 +14,10 @@ namespace BuzzbosLair
         private AlterHealthManager _alter_hm;
         private AlterInfectedEnemyEffects _alter_blood;
         private AlterEnemyDreamnailReaction _alter_dreamnail;
+
+        private PlayMakerFSM fsm;
+
+        private bool isStationary = false;
 
         void Awake()
         {
@@ -30,6 +37,8 @@ namespace BuzzbosLair
             _alter_hm = gameObject.AddComponent<AlterHealthManager>();
             _alter_blood = gameObject.AddComponent<AlterInfectedEnemyEffects>();
             _alter_dreamnail = gameObject.AddComponent<AlterEnemyDreamnailReaction>();
+
+            fsm = gameObject.GetComponent<PlayMakerFSM>();
         }
 
         void Start()
@@ -39,5 +48,36 @@ namespace BuzzbosLair
             _alter_dreamnail.SetNoReaction();
         }
 
+        public void MakeStationary(Vector3 position, float rotation)
+        {
+            if (!isStationary)
+            {
+                IEnumerator SetStateToInit()
+                {
+                    yield return new WaitForEndOfFrame();
+                    fsm.SetState("Init");
+                }
+
+                gameObject.GetComponent<Walker>().enabled = false;
+                gameObject.GetComponent<Recoil>().enabled = false;
+                gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+
+                fsm.ChangeTransition("Friendly?", "TOOK DAMAGE", "Idle");
+                fsm.RemoveAction("Idle", 0);
+                fsm.AddAction("Idle", fsm.GetAction<WaitRandom>("Run", 8));
+                fsm.AddTransition("Idle", "FINISHED", "Hatched Amount");
+                fsm.ChangeTransition("Hatched Amount", "CANCEL", "Idle");
+                fsm.ChangeTransition("Anim End", "FINISHED", "Idle");
+
+                gameObject.transform.position = position;
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+                little_bee.transform.rotation = Quaternion.identity;
+
+                StartCoroutine(SetStateToInit());
+
+                isStationary = true;
+            }
+            else BuzzbosLair.Instance.Log(gameObject.name + "(" + this + ") is already stationary!");
+        }
     }
 }
