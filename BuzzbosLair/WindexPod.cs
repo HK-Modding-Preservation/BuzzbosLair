@@ -64,7 +64,10 @@ namespace BuzzbosLair
 
                 fsm.ChangeTransition("Friendly?", "TOOK DAMAGE", "Idle");
                 fsm.RemoveAction("Idle", 0);
-                fsm.AddAction("Idle", fsm.GetAction<WaitRandom>("Run", 8));
+                WaitRandom waitRandom = fsm.GetAction<WaitRandom>("Run", 8);
+                waitRandom.timeMin = 0.9f;
+                waitRandom.timeMax = 1.6f;
+                fsm.AddAction("Idle", waitRandom);
                 fsm.AddTransition("Idle", "FINISHED", "Hatched Amount");
                 fsm.ChangeTransition("Hatched Amount", "CANCEL", "Idle");
                 fsm.ChangeTransition("Anim End", "FINISHED", "Idle");
