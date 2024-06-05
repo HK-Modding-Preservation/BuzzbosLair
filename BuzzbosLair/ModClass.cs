@@ -34,7 +34,7 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.5.3";
+        public override string GetVersion() => "0.5.4";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
