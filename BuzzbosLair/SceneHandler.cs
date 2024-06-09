@@ -67,6 +67,17 @@ namespace BuzzbosLair
             (spike_sprite, new Vector3(175f, 89.5f, -0.2f), Quaternion.Euler(new Vector3(0,0, 10f)), spike_sprite.transform.localScale),
             (spike_sprite, new Vector3(177f, 89.6f, -0.2f), Quaternion.Euler(new Vector3(0,0, 20f)), spike_sprite.transform.localScale),
 
+            // Middle block shadows
+            (spike_shadow, new Vector3(163f, 89.7f, -5.08f), Quaternion.Euler(new Vector3(0,0,355f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(165.5f, 89.8f, -5.08f), Quaternion.Euler(Vector3.zero), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(168.2f, 89.7f, -5.08f), Quaternion.Euler(new Vector3(0,0,10f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(169.8f, 89.9f, -5.08f), Quaternion.Euler(new Vector3(0,0,355f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(172f, 89.7f, -5.08f), Quaternion.Euler(new Vector3(0,0,15f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(173.6f, 89.9f, -5.08f), Quaternion.Euler(new Vector3(0,0,350f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(175.6f, 89.8f, -5.08f), Quaternion.Euler(Vector3.zero), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(177.3f, 90f, -5.08f), Quaternion.Euler(new Vector3(0,0,10f)), spike_shadow.transform.localScale),
+            (spike_shadow, new Vector3(179.2f, 90f, -5.08f), Quaternion.Euler(Vector3.zero), spike_shadow.transform.localScale),
+
         };
 
         internal static void SceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
