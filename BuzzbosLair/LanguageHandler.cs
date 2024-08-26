@@ -10,11 +10,11 @@ namespace BuzzbosLair
             switch (key)
             {
                 case "HIVE_SUPER":
-                    return key;
+                    return "";
                 case "HIVE_MAIN":
-                    return key;
+                    return "The H.I.V.E";
                 case "HIVE_SUB":
-                    return key;
+                    return "";
                 #region Boss
                 case "HIVE_KNIGHT_SUPER":
                     return "Dual Blood";
