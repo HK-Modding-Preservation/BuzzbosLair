@@ -70,7 +70,7 @@ namespace BuzzbosLair
                 case "NAME_ZOM_HIVE":
                     return "Windex Pod";
                 case "DESC_ZOM_HIVE":
-                    return "An cloner-incubator, filled with Windex.";
+                    return "A cloner-incubator, filled with Windex.";
                 case "NOTE_ZOM_HIVE":
                     return "The creatures of the H.I.V.E had a fierce obsession with 'perfecting life', and 'achieving eternity'. It is fascinating how far it took their sciences.";
 
