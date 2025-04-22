@@ -100,6 +100,10 @@ namespace BuzzbosLair
                 case "HIVEQUEEN_REPEAT":
                     return "Pasito a pasito, suave suavecito<page>Nos vamos pegando, poquito a poquito<page>¡Ay, ay!<page>¡Ay, ay!";
                 #endregion
+                case "CHARM_NAME_29":
+                    return "Honey Ichor";
+                case "CHARM_DESC_29":
+                    return "Golden hardened nugget of the H.I.V.E's precious natural blood.<br><br>Heals the bearer's wounds over time, allowing them to regain health without focusing SOUL.";
             }
 
             return orig;//key;//
