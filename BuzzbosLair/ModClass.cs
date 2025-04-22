@@ -34,14 +34,14 @@ namespace BuzzbosLair
 
         public static Sprite GetSprite(string name) => Instance.SpriteDict.Get(name);
 
-        public override string GetVersion() => "0.5.4";
+        public override string GetVersion() => "1.0.0";
 
         public override List<ValueTuple<string, string>> GetPreloadNames()
         {
             return _preloads.Values.ToList();
         }
 
-        public BuzzbosLair() : base("Hallow Knight: Buzzbo's Lair")
+        public BuzzbosLair() : base("Hallow Knight: The H.I.V.E")
         {
             //
             // Buzzbo's Lair as a sub-area?
