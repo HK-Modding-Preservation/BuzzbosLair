@@ -1,3 +1,11 @@
-# BuzzbosLair
+# The H.I.V.E
 
-A mod for the game Hollow Knight.
+A Hollow Knight mod, making the Hive a bit harder.
+
+Intended as the first of the <i>Hallow Knight</i> mod series, but we'll see if I actually make any others.
+
+- Requires FriendCore
+- EnemyHPBar <i>highly</i> recommended, but not required
+- HueShifter recommended, but not required
+
+Note that Hueshifter <i>is</i> required for building the mod yourself, if for some reason you want to do that.
